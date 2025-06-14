@@ -1,0 +1,30 @@
+body {
+  font-family: Georgia, serif;
+  max-width: 750px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  line-height: 1.7;
+  color: #333;
+}
+
+h1, h2 {
+  color: #222;
+}
+
+a {
+  color: #004080;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ccc;
+  font-size: 0.9rem;
+  color: #888;
+  text-align: center;
+}
