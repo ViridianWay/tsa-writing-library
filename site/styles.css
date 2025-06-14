@@ -1,16 +1,37 @@
+/* Typography */
 body {
-  font-family: Georgia, serif;
-  max-width: 750px;
+  font-family: "Georgia", serif;
+  line-height: 1.8;
+  font-size: 18px;
+  color: #2e2e2e;
+  background-color: #fafafa;
+  max-width: 800px;
   margin: 2rem auto;
-  padding: 0 1rem;
-  line-height: 1.7;
-  color: #333;
+  padding: 1rem;
 }
 
-h1, h2 {
-  color: #222;
+h1, h2, h3, h4 {
+  font-family: "Helvetica Neue", sans-serif;
+  color: #1a1a1a;
+  margin-top: 2rem;
 }
 
+h1 {
+  font-size: 2.25rem;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  margin-top: 2.5rem;
+}
+
+p {
+  margin: 1rem 0;
+}
+
+/* Links */
 a {
   color: #004080;
   text-decoration: none;
@@ -20,11 +41,27 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Lists */
+ul, ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+/* Blockquote */
+blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 1rem;
+  color: #555;
+  font-style: italic;
+  margin: 1.5rem 0;
+}
+
+/* Footer */
 footer {
-  margin-top: 3rem;
-  padding-top: 1rem;
-  border-top: 1px solid #ccc;
+  margin-top: 4rem;
+  padding-top: 1.5rem;
   font-size: 0.9rem;
   color: #888;
   text-align: center;
+  border-top: 1px solid #ddd;
 }
