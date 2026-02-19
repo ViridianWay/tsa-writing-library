@@ -1,0 +1,59 @@
+/* Salvation Army brand colors and reading-friendly styles */
+
+:root {
+	/* SA red and navy as accent colors */
+	--sl-color-accent-low: #1a0a0a;
+	--sl-color-accent: #b41e22;
+	--sl-color-accent-high: #f5dcdc;
+
+	/* Warmer background for reading */
+	--sl-color-bg: #faf8f5;
+	--sl-color-bg-nav: #f5f2ed;
+	--sl-color-bg-sidebar: #f5f2ed;
+}
+
+:root[data-theme='dark'] {
+	--sl-color-accent-low: #2a0e0f;
+	--sl-color-accent: #d4393d;
+	--sl-color-accent-high: #f5dcdc;
+
+	--sl-color-bg: #1a1816;
+	--sl-color-bg-nav: #211f1c;
+	--sl-color-bg-sidebar: #211f1c;
+}
+
+/* Better typography for long-form reading */
+.sl-markdown-content {
+	max-width: 72ch;
+	line-height: 1.75;
+}
+
+.sl-markdown-content h1 {
+	font-size: 1.8rem;
+	margin-top: 1rem;
+}
+
+.sl-markdown-content h2 {
+	margin-top: 2.5rem;
+	padding-bottom: 0.3rem;
+	border-bottom: 1px solid var(--sl-color-gray-5);
+}
+
+/* Block quotes styled for historical quotations */
+.sl-markdown-content blockquote {
+	border-left: 3px solid var(--sl-color-accent);
+	background: var(--sl-color-bg-sidebar);
+	padding: 0.75rem 1.25rem;
+	margin: 1.5rem 0;
+	font-style: italic;
+}
+
+/* Cards on the home page */
+.card-grid .card {
+	border-left: 3px solid var(--sl-color-accent);
+}
+
+/* Splash page hero styling */
+.hero .tagline {
+	max-width: 48ch;
+}

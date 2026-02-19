@@ -1,0 +1,33 @@
+---
+title: "Our Purpose"
+author: "William Booth"
+
+type: "Article"
+description: "Editorial statement for The East London Evangelist"
+published: "1868-10-00"
+tags: ["publishing", "mission statement", "Christian Mission", "revival", "holiness"]
+---
+
+# Our Purpose
+
+_From "The East London Evangelist," October, 1868_
+
+---
+
+In issuing this little periodical, we wish to set forth our purpose; and at the outset we would disclaim all rivalry with the journals of kindred spirit already in existence: we think we can discern a path of usefulness as yet untraveled, and we wish to walk in it in peace and good fellowship to all. Let us at once frankly state what we desire to accomplish.
+
+While speaking especially for the East London Christian Mission, we propose none the less to advocate the interests of earnest Christianity in general, without respect to any peculiar opinions on minor points of doctrine and discipline; so that Christ and Him crucified be held as the only ground of a sinner's hope here and hereafter. In doing this we propose reporting monthly those Revival Facts and Incidents which are of public interest, gathering up from various sources of information the movements of those brethren whose labours are must owned of God, describing those outpourings of the Holy Spirit which, through mercy, are constantly taking place, and thus presenting a brief Monthly Report of Revival and Evangelistic Work throughout the World.
+
+The publication of Revival Intelligence has often proved most profitable. Christians at a distance, bearing of the Lord's marvelous doings in one place, are stimulated to desire, pray, and labour for similar manifestation of His saving power in their own churches and neighbourhoods. Especially has this been the case in America, where most of the secular newspapers have columns for religious intelligence, which spread the glad tidings of revival far and near. This is God's plan. Those glorious outpourings of the Holy Ghost which transpired in the early history of the Church, and shook the world, are recorded in the Acts of the Apostles, and reading this 'revival intelligence," many thousands have been led in every succeeding age to cry and wait for that purchased baptism of fire which is the characteristic, the need, and the glory of this dispensation. Will brethren thus favoured of the Lord send us notes of any real work of God of which they ay have knowledge? Let them be brief and faithful descriptions, failing not to ascribe all glory to Him to whom all glory is due.
+
+We desire also that our periodical should form a medium for the publication of those Plans of Labour which have been found most effective in bringing men to God. We propose to inquire into the reasons for the great success of the men and women whose names stand associated with the great revivals of the past from the time of Pentecost until now; and we shall welcome to our pages the publication of those measures which our readers may find to be most blessed by the Master, in their experience and neighbourhood. The mental condition and earthly circumstances of men are much alike in all ages and places, and the measures employed to bring the saving truth of the Bible before men, and the Holy Ghost upon men, in one age and place, might be tried, with, at least, a rational expectation of similar blessing in another. For ourselves, we confess, and we believe we may say the same of hundreds of co-workers in the vineyard, that we should be glad to sit at the feet of any in the Israel of God to learn lessons of usefulness in the divine art of winning souls to Christ. Let the learners who shall read this, ask questions; we will record them; and let those who have the experience and the wisdom which cometh from above reply.
+
+We intend also to publish Brief Sketches of the Lives of the most useful and devoted Christians who have lived and blessed the world in the past, or who are still toiling in the vineyard, and doubt not that such biographies will prove of interest and profit to our readers.
+
+We think we shall be able to add to the usefulness of our little book by occasionally introducing, for the benefit of those new at the evangelistic work, Outlines of Addresses suitable to the open air, mission hall, or village pulpit; also Facts and Illustrations calculated to arrest attention or explain and enforce the great truths of the Bible; while now and then Short Papers on Christian doctrine and sermons from some God made preacher may prove interesting and profitable.
+
+We also propose devoting a large portion of our space to the topic of Personal Holiness. The importance of this theme nor tongue nor pen can possibly overrate. Practical godliness is the great want of the age. The world lies in the arms of the wicked one, unmoved by all God's threatened woes, deeming the church's unfaithfulness a justification of her unbelief. Souls are dying and stumbling into perdition over the dead, worldly lives of professing Christians. On the standard we propose to rear aloft, we hope to write in large and legible characters — **HOLINESS TO THE LORD**. On this topic we shall, primarily, carefully and reverently ask, What saith the Scriptures? And then, What saith those devoted men and women who have thought and prayed most on this subject, and whose lives and work bear most striking evidence of their having been taught of God? We believe there are thousands most anxiously asking if there be not in the Gospel a provision made for deliverance from the dominion of sin, and that to such we shall be able to publish the glad tidings of a faith which overcomes the world, quenches all the fiery darts of the wicked one, and inspires, even amid all the trials, tears, and temptations of earth, the song of heaven — Victory, victory, through the blood of the Lamb.
+
+---
+
+This editorial statement from October 1868 reveals William Booth's vision for Christian communication and education as an integral part of his mission work. Written for the inaugural issue of "The East London Evangelist," it outlines six key purposes: reporting revival intelligence worldwide, sharing effective evangelistic methods, publishing Christian biographies, providing practical resources for evangelists, emphasizing personal holiness, and fostering inter-denominational cooperation. The document demonstrates how Booth understood the power of the printed word to spread revival beyond geographical boundaries, establishing a pattern that would later characterize The Salvation Army's extensive publishing ministry. His emphasis on "HOLINESS TO THE LORD" as the central banner reveals the theological foundation that would distinguish his movement from other evangelical efforts of the era.

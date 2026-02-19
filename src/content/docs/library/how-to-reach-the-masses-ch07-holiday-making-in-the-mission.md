@@ -1,0 +1,46 @@
+---
+title: "Holiday Making in the Mission"
+author: "William Booth"
+series: "How to Reach the Masses with the Gospel"
+type: "Book Chapter"
+description: "Account of the Christian Mission's annual excursion to Tunbridge Wells"
+published: "1872-00-00"
+tags: ["Christian Mission", "Community", "Fellowship", "Recreation", "Testimonies", "Henry Reed", "Dunorlan"]
+---
+
+# Holiday Making in the Mission
+
+_From "How to Reach the Masses with the Gospel" by William Booth_
+
+---
+
+Every year from the commencement we have taken our people for a day's enjoyment amongst the green fields. Perhaps under no circumstances would the spirit of the people be more apparent than when thus gathered for amusement and recreation. The last two years, Henry Reed, Esq., has kindly invited us to his grounds in Tunbridge Wells, and generously paid half the railway fare, all the other expenses of the excursion being borne by the people themselves. In July last, about 1400 persons availed themselves of his kindness, and the following is an abridged account of this visit, written and published at the time by a gentleman who made his first acquaintance with our people on that occasion. Consequently, his paper may be deemed at least impartial. It is entitled —
+
+## A Day at Dunorlan with the Christian Mission
+
+**By a Worker from Another Corner of the Vineyard**
+
+After some introductory remarks, the writer says —
+
+> "The first train rolled away with its living burden at a quarter past eight, 'singing all the time,' for from almost every carriage was heard thanksgiving and the voice of melody, notwithstanding the pealing thunder overhead, which seemed to draw nearer and nearer at every discharge. The lightning was most vivid, and the rain fell in torrents. Still the happy people poured into the station, and by half-past eight the second train was filled, and within a few minutes the signal sounded and the tram moved off, in one of the most violent thunderstorms experienced in this country for many years; but it did not stop the singing.
+
+> "We'll stand the storm, it won't be long;
+> We'll anchor by and by,"
+
+> sounded out from more than one carriage, mingled with songs before and behind of 'Hallelujah! Glory to God! I'm on my journey home!' 'Come and join our noble army!'
+
+> "The storm did not cease for some time, and the rain fell incessantly until the train neared Tunbridge. On arriving at the Wells, all was fair and dry; the soft breezes were delicious, and a screen of light clouds kept off the beat of the sun, but left a cheerful warm light in which the newly-washed verdure looked most beautiful.
+
+> "No time was lost in forming a procession of the two train loads of passengers, and when fairly in marching order, headed by Mr. Reed and Mr. Booth, with banners exhibiting precious watchwords and text of Scripture, they commenced their march. The sight, as it ascended the hill leading out of tunbridge Wells to Dunorlan was intensely interesting and impressive. Over the entrance-gates rose the ornamental device, 'Welcome to Dunorlan!' and a text of gospel truth surmounted each postern. The people sang all the way, displaying none of the disorderly frivolity and senseless antics of dissolute holiday-seekers, but filled with a sober joy, that beamed in every eye, and pervaded every look and every act. 'I must do all I can for my Jesus, He has done so much for me,' said one good woman, who said she had found Jesus in a cellar; and she told forth her joy and her happiness, her trials and her conquests to her Christian companions. The same spirit pervaded the whole gathering throughout the day."
+
+After describing the beauty of the grounds, and noting what a paradise they must have appeared unto the poor people as they gathered for devotional meetings, or sat and sang the sweet songs of Zion under the shade of the wide-spreading trees, or alongside the rocks over which laughing cascades of water fell, or in the rustic grottoes and arbours hidden away with overlaying ivy, woodbine, or roses, the writer goes on to describe the disappointment experienced from another heavy storm, and the admirable manner in which it was borne by the people, who, instead of sitting down together on a green hill-side to the afternoon feast, as had been arranged for, had to crowd for shelter into the farm-buildings. And partake of tea in the most humble and simple manner possible. The writer then proceeds with his narrative:
+
+> "For two hours it rained heavily, and there seemed no prospect of suitable weather for holding the love-feast on the terrace as announced; and therefore the happy good-tempered people, so soon as tea was over, of their own accord, began prayer and experience meetings where they were. The whole cluster of farm-buildings soon resounded with praise, and many striking incidents occurred. In one of the cow-sheds three seeking souls found their Saviour; — were born again in circumstances similar to those which surrounded the lowly birth of their glorious Redeemer; songs and shouts of glory and salvation from the saints around taking the place of the songs of the heavenly host over the plains or Bethlehem. It is impossible to describe the whole scene. Such an exhibition of the power of real religion to control and make happy — SERIOUSLY, EARNESTLY, JOYOUSLY HAPPY — a mixed multitude of all ages. Must be seen to be appreciated.
+
+> "It became fair between four and five o'clock, and soon after the gong sounded for the love-feast on the terrace. Nearly a thousand people assembled, forming a ring round a central spot in which stood Mr. and Mrs. Reed, Mr. Booth, and some of the leaders and preachers; and for nearly two hours some scores of persons testified of the grace of God in their personal salvation and the power of God in connection with the work of the Christian Mission. The child of ten or twelve and the aged saint of seventy spoke of their love and devotion to Jesus; the venerable proprietor of the estate, standing in the midst, his white head towering above the majority there, told in simple weighty words what God had done for his soul, and his pious lady thanked the good Father of all even for trials and chastisements through which we are perfected and brought into unison with the spirit of the blessed Jesus. It was difficult to conduct a meeting like this, where hundreds of happy souls were eager to tell of their joy; and it seemed still more difficult to conclude it while scores of precious saints were left with unopened mouths on this great subject. But at length the end came: Mr. Booth's well-known voice called attention to a few brief directions for the return to the train and with much earnestness and feeling he presented to Mr. and Mrs. Reed the grateful thanks of the people for the day's entertainment. This was responded to by the people on one side with uncovered heads and joyous amens, and by Mr. Reed on the other with a few kind and tender words, recommending 'Jesus only' as their motto, their example, and their glory. Like a polite, as well as generous host, Mr. Reed attended his guests to the railway station, and saw them safely depart for London.
+
+> "The journey home was in perfect keeping with the entertainment of the day. The voice of prayer and praise resounded from every carriage and even in the train penitent sinners were being pointed to Jesus. Would to God that such sights and sounds were more common in connection with the excursions of His professed people; but judging from the surprised and puzzled air of the railway officials, such demonstrations on the side of Christ and His gospel do not often come across them. Of one fact, this annual excursion furnished most emphatic and glorious proof, — that the labours of Mr. and Mrs. Booth. and their coadjutors have been abundantly owned in bringing souls to Christ. Such a band of living and earnest believers it was never before our lot to meet in one gathering and we earnestly commend this blessed work to the sympathy and support of all who love the Lord Jesus, and desire the coming of His kingdom."
+
+---
+
+This brief but vivid chapter provides a remarkable window into the community spirit and religious fervor of the early Christian Mission. The account of the 1,400-person excursion to Henry Reed's estate at Dunorlan reveals how the Mission's members brought their faith into every aspect of life, turning what could have been a simple recreational outing into an evangelistic opportunity. The detailed description of their singing through thunderstorms, impromptu prayer meetings in farm buildings, and testimonial services demonstrates the authentic spiritual enthusiasm that characterized William Booth's movement. This chapter is particularly valuable for understanding the social dynamics of the Christian Mission and how it fostered a distinctive community culture that would later become a hallmark of the Salvation Army. The generous partnership with Henry Reed also illustrates the kind of philanthropic support that enabled the Mission's work among London's poor to flourish.

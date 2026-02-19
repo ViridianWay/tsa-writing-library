@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+	/** The series name to match in frontmatter */
+	series: string;
+	/** Sort by chapter number (default) or published date */
+	sortBy?: 'chapter' | 'published';
+}
+
+const { series, sortBy = 'chapter' } = Astro.props as Props;
+
+const docs = await getCollection('docs');
+
+const toPath = (entry: (typeof docs)[number]) => {
+	const raw = entry.slug ?? entry.id.replace(/\.(md|mdx)$/, '');
+	return `/${raw.replace(/\/index$/, '')}/`;
+};
+
+const works = docs
+	.filter(
+		(entry) =>
+			entry.id.startsWith('library/') &&
+			!entry.id.endsWith('/index.md') &&
+			entry.data.series === series
+	)
+	.map((entry) => ({
+		title: entry.data.title,
+		path: toPath(entry),
+		part: entry.data.part,
+		chapter: entry.data.chapter,
+		type: entry.data.type,
+		published: entry.data.published,
+	}));
+
+// Sort by part then chapter, or by published date
+works.sort((a, b) => {
+	if (sortBy === 'published') {
+		return String(a.published ?? '').localeCompare(String(b.published ?? ''));
+	}
+	const partA = Number(a.part) || 0;
+	const partB = Number(b.part) || 0;
+	if (partA !== partB) return partA - partB;
+	const chA = Number(a.chapter) || 0;
+	const chB = Number(b.chapter) || 0;
+	return chA - chB;
+});
+
+// Group by part if parts exist
+const hasParts = works.some((w) => w.part);
+const parts = new Map<number, typeof works>();
+if (hasParts) {
+	for (const work of works) {
+		const p = Number(work.part) || 0;
+		const list = parts.get(p) ?? [];
+		list.push(work);
+		parts.set(p, list);
+	}
+}
+---
+
+{works.length === 0 ? (
+	<p>No works found for this collection.</p>
+) : hasParts ? (
+	<>
+		{[...parts.entries()].sort(([a], [b]) => a - b).map(([partNum, items]) => (
+			<section>
+				{partNum > 0 && <h3>Part {partNum}</h3>}
+				<ol>
+					{items.map((work) => (
+						<li>
+							<a href={work.path}>{work.title}</a>
+							{work.type === 'Series Overview' && <em> (Overview)</em>}
+						</li>
+					))}
+				</ol>
+			</section>
+		))}
+	</>
+) : (
+	<ol>
+		{works.map((work) => (
+			<li>
+				<a href={work.path}>{work.title}</a>
+				{work.type === 'Series Overview' && <em> (Overview)</em>}
+			</li>
+		))}
+	</ol>
+)}
