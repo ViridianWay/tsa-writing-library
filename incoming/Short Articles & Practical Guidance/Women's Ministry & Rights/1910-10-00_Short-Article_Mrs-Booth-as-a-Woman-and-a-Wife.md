@@ -1,0 +1,52 @@
+---
+title: "Mrs. Booth as a Woman and a Wife"
+author: "William Booth"
+series: "Short Articles & Practical Guidance"
+type: "Article"
+description: "Personal tribute to Catherine Booth's character and their marriage"
+published: "1910-10-00"
+tags: ["catherine-booth", "marriage", "womens-ministry", "tribute", "personal"]
+filename: "1910-10-00_Short-Article_Mrs-Booth-as-a-Woman-and-a-Wife"
+---
+
+# Mrs. Booth as a Woman and a Wife
+
+_From "Short Articles & Practical Guidance" by William Booth_
+
+---
+
+October, 1910
+
+I shrink from talking in public of my precious wife, for it is not my habit to speak much of her, except to those who live in our inner circle, and who knew her well, to whom I could speak of her lovely character without any thought of flattery or praise. In speaking before strangers I hesitate, lest my words seem to be exaggerations. Anyway, you must take them as they come from my heart. I recommend you if you can get lessons out of them to do so.
+
+I would like to make some sort of photograph on your minds that, knowing her, you might love and admire her, and that you might only love and admire in order that you may long and desire to be like her.
+
+I will speak of her as a woman. There are scores of persons here who knew her intimately who must be my witnesses as I pass along, and whom I charge, if I say one word more than they know to be within the bounds of truthfulness, that they will speak to me on the subject afterwards. I would not exaggerate for a single moment. I say that she was a true woman in every sense of the word. She was a woman in personal form, with eyes that were full of life and luster. Her features were regular; but it was the beauty of the soul that charmed me. She was a born genius — a born reasoner; she had the capacity for grasping any subject on which she had information, and for understanding it. She had argumentative powers. I never knew her worsted or beaten in an argument. Of course, she had too much sense to enter upon a controversy for its own sake, or with the nature of which she was not conversant; but having once entered upon it I never knew her to come out anything but victorious.
+
+There were very few subjects that concerned the interests of the human family with which she was not conversant. She had learned politics at her father's table. She was well informed on social questions, on physical science — yea, on mechanical science. I need not say she was well informed on religious questions; better still, she had what in my estimation was her greatest recommendation, and had most to do with making her a heroine in the estimation of the multitudes — she had a big heart. I never knew a man or woman with the capacity for sympathy that she, in my estimation, possessed.
+
+Her sympathy for the sufferings of the animal world was constant. She never, within my knowledge, knew of any suffering but she sought to prevent it. It was nothing for her to stop in the street to deal with any who were beating donkeys or horses unmercifully, lashing cattle, or ill-treating dogs. I do not think any sufferer who appealed for help that she could render appealed in vain.
+
+I am proud to say that she was, in a sense, the joint author of the Social Scheme, for if she were not the joint author of the book she was of the spirit which produced the book — 'In Darkest England.' When it was commenced she was too great a sufferer — the ravages of the disease had too great a hold upon her — for her to be able to give any concentrated continued attention to the book; but still, as the main features were passed before her, she manifested the deepest, tenderest interest.
+
+I think I read to her the first chapter, and perhaps a part of the second chapter; and then as I passed along I thought — 'I will conclude the book, and will not trouble her with it in parts, but read it to her as a whole.' Before it was completed, however, she was translated from earth to Heaven. I do not know whether the book is read up yonder — it is probable — for I am sure they have a good deal more sympathy with the submerged in Heaven than many have on earth. Anyway, her parting blessing was on it; her parting sympathies were with those on whose account it was written. I do know that she wished with all her heart and prayed with all her power for its success.
+
+I could remark here on her concerns for the drunkards — her life-long antagonism to strong drink. She was a temperance girl when but a child. I have heard her say that when only twelve years of age she was the secretary of a juvenile temperance society; and all the way down to the last moment of her life her antipathy to this evil was continued.
+
+Her sympathy with her own sex was well known. She never failed to stand up for them when their privileges were called in question. She believed the woman was fully equal to the man. The first little lover's quarrel, and the only serious lover's quarrel we had — and we were engaged some two and a half years before marriage was on this question. I had a sort of notion, which I hold still to some extent, that woman was in some senses inferior to man, though in other senses his superior. I used to put it in this phraseology: that women have a fibre more in their hearts, and a cell less in their brains. She would not grant this for a single moment. She was quite willing to believe, in fact she did believe, that the woman had more heart, but she was also quite sure that she had as much brains, and very often a great deal more.
+
+If she has done nothing more for her generation than what she has accomplished for the emancipation of women from the conventional bondage which kept their mouths closed, and kept them back from publicly advocating the cause of the Savior, I think she deserves well of all womankind. When I think of the crowds of women who are now preaching, and remember how they are multiplying in every land — women for whom she opened the door, and for whom she led the way, who have followed her beckoning finger, and are treading in her track, when I think of this ever increasing multitude of women, who are as angels of God, blessing and saving the souls and bodies of men, I am thankful, and rejoice, and am filled with gratitude to God on her behalf.
+
+I am now to speak of her as a wife. When it pleased my Heavenly Father to take her away who had been not only such a consolation and joy, but such a strength to my heart, I knelt down and thanked Him that He had allowed me to possess this unspeakable treasure for so long. She loved me, first, with a strong passion, which afterwards had in it the qualities of a rational affection, and almost one might call it a strong and unflagging friendship. I was, nevertheless, all the way through, ever the first in her estimation. She never allowed any other friends — never allowed even her own children, her own interests, even her public work, to come between herself and my own heart. She ministered ever to my needs; she was my physician in disease, my nurse in illness. She never allowed anyone else to nurse me through some long and serious attacks of illness from which I suffered. We ever stood in that holy, sacred circle of affection, and when the last moment came I received her last word and look of her recognition, the last pressure of her hand. I was the last she recognized on earth, and I hope, by and by, to be recognized by her again when this life will be renewed in a holier clime.
+
+She looked after my home; her public duties never interfered with those at home. In this relation I never met with anyone who was her equal; she could do everything from the bottom to the top of a house. She showed marked ability in dress-making and in making clothing for her children. She could show the carpenters and bell-hangers better how to do their work about the house than they knew themselves. I mention this because some people have a notion that when a woman is engaged in public work she is bound to neglect her fireside duties. My darling wife was a contradiction to such a notion.
+
+Best of all was the complete union which existed between us ever since our first meeting. We have been inseparable in spirit; that is, in all the main thoughts, feelings, and purposes of our lives. On no single question of any importance have we ever acted independently of each other's views. I am far from laying any claim for infallibility of judgment on her behalf, or a freedom from human infirmity; but to me she has been made of God, a source of unfailing sympathy, wisdom, and truth — in short, all that is noble, good, and true. Consequently, she has been a tower of strength, a mine of wealth, and an ever-flowing fountain of comfort and joy. How great a loss is mine!
+
+What shall we do? I can only say that I will go forward to fill up the measure of service required of me. She has gone from my side; she promised me again and again that she would come to me if she were allowed, and that what she could do to further the dearest purposes of my soul for the helping of the world should be done.
+
+My comrades, will you follow her as she followed Christ? I could tell you, if I had time, many more things about her; but nevertheless, so far as her life has been self-sacrificing and pure and laborious and true, in the interests of Jesus Christ and of mankind, will you imitate it? So shall you be a joy to her, and an unspeakable consolation to your friend and General.
+
+---
+
+**Historical Note:** This intimate tribute, written twenty years after Catherine Booth's death in 1890, reveals the profound personal and professional partnership that undergirded The Salvation Army's founding. William's candid account of their early disagreement about women's intellectual equality shows how Catherine's convictions shaped not only their marriage but the Army's progressive stance on gender equality. His recognition of her as "joint author" of the social reform spirit behind "In Darkest England" demonstrates her continued influence on his thinking even during her final illness. This personal memoir provides unique insight into how the Booths' marriage modeled the equality they promoted institutionally, challenging Victorian domestic conventions while maintaining deep mutual devotion. The tribute stands as both a love letter and a testament to Catherine's lasting impact on women's ministry and social reform.
