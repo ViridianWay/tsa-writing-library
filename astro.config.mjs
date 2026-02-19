@@ -6,19 +6,18 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			title: 'TSA Writing Library',
+			description:
+				'A public-facing digital library for authors, topics, and publications.',
 			sidebar: [
 				{
-					label: 'Guides',
+					label: 'Library',
 					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
+						{ label: 'Authors', slug: 'authors' },
+						{ label: 'Topics', slug: 'topics' },
+						{ label: 'Publications', slug: 'publications' },
+						{ label: 'About', slug: 'about' },
 					],
-				},
-				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
 				},
 			],
 		}),
