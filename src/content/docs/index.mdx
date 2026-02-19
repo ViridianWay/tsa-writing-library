@@ -1,13 +1,61 @@
 ---
-title: TSA Writing Library
-description: Explore authors, topics, publications, and background information in the TSA Writing Library.
+title: The Salvation Army Writing Library
+description: A digital archive of historical and contemporary Salvation Army writings.
+template: splash
+hero:
+  tagline: Preserving and sharing the written heritage of The Salvation Army — from the Founder's pen to the present day.
+  actions:
+    - text: Browse the Library
+      link: /browse/authors/
+      icon: right-arrow
+    - text: About This Project
+      link: /about/
+      variant: minimal
 ---
 
-Welcome to the TSA Writing Library.
+import { Card, CardGrid } from '@astrojs/starlight/components';
 
-Use the sections in the sidebar to browse:
+## Featured Collections
 
-- Authors
-- Topics
-- Publications
-- About
+<CardGrid>
+  <Card title="In Darkest England" icon="open-book">
+    William Booth's landmark 1890 work on poverty and social reform — the book that changed how the world sees The Salvation Army.
+
+    [Read the collection &rarr;](/collections/in-darkest-england/)
+  </Card>
+
+  <Card title="The Founder's Messages" icon="document">
+    35 spiritual messages from William Booth to Salvation Army soldiers, covering faith, duty, and the Christian life.
+
+    [Read the collection &rarr;](/collections/founders-messages/)
+  </Card>
+
+  <Card title="How to Reach the Masses" icon="star">
+    An 1872 account of the Christian Mission's pioneering methods in East London — before The Salvation Army had its name.
+
+    [Read the collection &rarr;](/collections/how-to-reach-the-masses/)
+  </Card>
+
+  <Card title="Short Articles & Letters" icon="pencil">
+    Dozens of standalone articles on holiness, leadership, evangelism, women's ministry, and more.
+
+    [Browse all works &rarr;](/browse/series/)
+  </Card>
+</CardGrid>
+
+## Browse the Archive
+
+<CardGrid>
+  <Card title="By Author" icon="seti:notebook">
+    [View all authors &rarr;](/browse/authors/)
+  </Card>
+  <Card title="By Collection" icon="list-format">
+    [View all collections &rarr;](/browse/series/)
+  </Card>
+  <Card title="By Topic" icon="magnifier">
+    [View all topics &rarr;](/browse/topics/)
+  </Card>
+  <Card title="By Year" icon="seti:clock">
+    [View all years &rarr;](/browse/years/)
+  </Card>
+</CardGrid>
