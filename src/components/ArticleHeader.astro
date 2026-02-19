@@ -125,10 +125,16 @@ const dateStr = isLibraryPage ? formatDate(published) : '';
 
 		{/* Metadata row */}
 		<div class="article-meta">
-			{author && (
+			{author && author !== 'Unknown' && (
 				<span class="meta-item">
 					<span class="meta-label">By</span>
-					<a href={`/browse/authors/${author.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/`} class="meta-author">{author}</a>
+					<a href={`/browse/#author=${encodeURIComponent(author)}`} class="meta-author">{author}</a>
+				</span>
+			)}
+			{author === 'Unknown' && (
+				<span class="meta-item">
+					<span class="meta-label">By</span>
+					<span class="meta-author-unknown">Unknown Author</span>
 				</span>
 			)}
 			{dateStr && dateStr !== 'Date unknown' && (
@@ -155,7 +161,7 @@ const dateStr = isLibraryPage ? formatDate(published) : '';
 		{tags.length > 0 && (
 			<div class="article-tags">
 				{tags.map((tag) => (
-					<a href={`/browse/topics/#${tag}`} class="article-tag">{formatTag(tag)}</a>
+					<a href={`/browse/#tag=${tag}`} class="article-tag">{formatTag(tag)}</a>
 				))}
 			</div>
 		)}
@@ -282,6 +288,11 @@ const dateStr = isLibraryPage ? formatDate(published) : '';
 
 		.meta-author:hover {
 			text-decoration: underline;
+		}
+
+		.meta-author-unknown {
+			color: var(--sl-color-gray-3);
+			font-style: italic;
 		}
 
 		.meta-sep {
