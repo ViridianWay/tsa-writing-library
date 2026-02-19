@@ -1,0 +1,179 @@
+---
+/**
+ * Override of Starlight's Sidebar component.
+ *
+ * On library article pages: replaces the sidebar with the current collection's
+ * table of contents (chapters listed, current article highlighted) plus a
+ * compact link back to the main navigation.
+ *
+ * On all other pages: renders the default sidebar unchanged.
+ */
+import { getCollection } from 'astro:content';
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
+import { collectionUrls, chapterLabel } from '../lib/collections';
+
+const { sidebar } = Astro.locals.starlightRoute;
+const currentPath = Astro.url.pathname;
+const isLibraryPage = currentPath.startsWith('/library/');
+
+// For library pages, build a contextual sidebar
+let collectionSidebar: any[] | null = null;
+let collectionName = '';
+let collectionUrl = '';
+
+if (isLibraryPage) {
+	const docs = await getCollection('docs');
+	const toPath = (entry: (typeof docs)[number]) => {
+		const raw = (entry as any).slug ?? entry.id.replace(/\.(md|mdx)$/, '');
+		return `/${raw.replace(/\/index$/, '')}/`;
+	};
+
+	const currentDoc = docs.find((d) => toPath(d) === currentPath);
+	const seriesName = currentDoc ? (currentDoc.data as any).series : undefined;
+
+	if (seriesName) {
+		collectionName = seriesName;
+		collectionUrl = collectionUrls[seriesName] || '';
+
+		const seriesDocs = docs
+			.filter((d) => d.id.startsWith('library/') && (d.data as any).series === seriesName)
+			.map((d) => ({
+				title: (d.data as any).title as string,
+				path: toPath(d),
+				part: (d.data as any).part,
+				chapter: (d.data as any).chapter,
+				type: (d.data as any).type,
+			}))
+			.sort((a, b) => {
+				const partA = Number(a.part) || 0;
+				const partB = Number(b.part) || 0;
+				if (partA !== partB) return partA - partB;
+				return (Number(a.chapter) || 0) - (Number(b.chapter) || 0);
+			});
+
+		// Check if this series has multiple parts
+		const hasParts = seriesDocs.some((d) => d.part && Number(d.part) > 0);
+
+		if (hasParts) {
+			// Group by part and create nested sidebar entries
+			const partGroups = new Map<number, typeof seriesDocs>();
+			for (const doc of seriesDocs) {
+				const p = Number(doc.part) || 0;
+				const list = partGroups.get(p) ?? [];
+				list.push(doc);
+				partGroups.set(p, list);
+			}
+
+			collectionSidebar = [...partGroups.entries()]
+				.sort(([a], [b]) => a - b)
+				.map(([partNum, items]) => ({
+					type: 'group' as const,
+					label: partNum > 0 ? `Part ${partNum}` : 'Introduction',
+					collapsed: !items.some((d) => d.path === currentPath),
+					entries: items.map((d) => ({
+						type: 'link' as const,
+						label: d.chapter && Number(d.chapter) > 0
+							? `${d.chapter}. ${d.title}`
+							: d.title,
+						href: d.path,
+						isCurrent: d.path === currentPath,
+						attrs: {},
+					})),
+				}));
+		} else {
+			// Flat list
+			collectionSidebar = seriesDocs.map((d) => ({
+				type: 'link' as const,
+				label: d.chapter && Number(d.chapter) > 0
+					? `${d.chapter}. ${d.title}`
+					: d.title,
+				href: d.path,
+				isCurrent: d.path === currentPath,
+				attrs: {},
+			}));
+		}
+	}
+}
+---
+
+{collectionSidebar ? (
+	<div class="library-sidebar">
+		{/* Quick-access links back to main nav */}
+		<div class="sidebar-quick-nav">
+			<a href="/" class="quick-nav-link">Home</a>
+			<span class="quick-nav-sep">&middot;</span>
+			<a href="/browse/series/" class="quick-nav-link">Browse</a>
+			<span class="quick-nav-sep">&middot;</span>
+			<a href="/browse/topics/" class="quick-nav-link">Topics</a>
+		</div>
+
+		{/* Collection header */}
+		{collectionUrl ? (
+			<a href={collectionUrl} class="sidebar-collection-title">{collectionName}</a>
+		) : (
+			<span class="sidebar-collection-title">{collectionName}</span>
+		)}
+
+		{/* Chapter list */}
+		<SidebarPersister>
+			<SidebarSublist sublist={collectionSidebar} />
+		</SidebarPersister>
+	</div>
+) : (
+	<>
+		<SidebarPersister>
+			<SidebarSublist sublist={sidebar} />
+		</SidebarPersister>
+		<div class="md:sl-hidden">
+			<MobileMenuFooter />
+		</div>
+	</>
+)}
+
+<style>
+	@layer starlight.custom {
+		.library-sidebar {
+			padding: 0;
+		}
+
+		.sidebar-quick-nav {
+			display: flex;
+			align-items: center;
+			gap: 0.4rem;
+			padding: 0.5rem 0.5rem 0.75rem;
+			border-bottom: 1px solid var(--sl-color-hairline-light);
+			margin-bottom: 0.75rem;
+		}
+
+		.quick-nav-link {
+			font-size: 0.75rem;
+			color: var(--sl-color-gray-3);
+			text-decoration: none;
+		}
+
+		.quick-nav-link:hover {
+			color: var(--sl-color-accent);
+		}
+
+		.quick-nav-sep {
+			color: var(--sl-color-gray-5);
+			font-size: 0.6rem;
+		}
+
+		.sidebar-collection-title {
+			display: block;
+			font-size: var(--sl-text-base);
+			font-weight: 600;
+			color: var(--sl-color-white);
+			text-decoration: none;
+			padding: 0 0.5rem 0.5rem;
+			line-height: 1.3;
+		}
+
+		a.sidebar-collection-title:hover {
+			color: var(--sl-color-accent);
+		}
+	}
+</style>

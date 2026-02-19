@@ -1,0 +1,420 @@
+---
+/**
+ * Override of Starlight's PageTitle component.
+ * For library pages: shows rich metadata (author, date, series/part/chapter, tags)
+ * plus contextual navigation at the top of the article.
+ * For non-library pages: renders the standard title.
+ */
+import { getCollection } from 'astro:content';
+import { collectionUrls, formatDate, formatTag, chapterLabel } from '../lib/collections';
+
+const PAGE_TITLE_ID = '_top';
+const route = Astro.locals.starlightRoute;
+const data = route.entry.data as Record<string, any>;
+const title = data.title;
+
+const currentPath = Astro.url.pathname;
+const isLibraryPage = currentPath.startsWith('/library/');
+
+// Gather metadata for library pages
+let author: string | undefined;
+let published: string | undefined;
+let seriesName: string | undefined;
+let seriesUrl: string | undefined;
+let partNum: string | number | undefined;
+let chapterNum: string | number | undefined;
+let typeName: string | undefined;
+let source: string | undefined;
+let tags: string[] = [];
+let prevLink: { href: string; label: string; partChapter: string } | null = null;
+let nextLink: { href: string; label: string; partChapter: string } | null = null;
+let positionLabel = '';
+
+if (isLibraryPage) {
+	author = data.author;
+	published = data.published ? String(data.published) : undefined;
+	seriesName = data.series;
+	partNum = data.part;
+	chapterNum = data.chapter;
+	typeName = data.type;
+	source = data.source;
+	tags = data.tags ?? [];
+
+	if (seriesName && collectionUrls[seriesName]) {
+		seriesUrl = collectionUrls[seriesName];
+	}
+
+	// Build prev/next navigation
+	if (seriesName) {
+		const docs = await getCollection('docs');
+
+		const toPath = (entry: (typeof docs)[number]) => {
+			const raw = (entry as any).slug ?? entry.id.replace(/\.(md|mdx)$/, '');
+			return `/${raw.replace(/\/index$/, '')}/`;
+		};
+
+		const seriesDocs = docs
+			.filter((d) => d.id.startsWith('library/') && (d.data as any).series === seriesName)
+			.map((d) => ({
+				title: (d.data as any).title as string,
+				path: toPath(d),
+				part: (d.data as any).part,
+				chapter: (d.data as any).chapter,
+			}))
+			.sort((a, b) => {
+				const partA = Number(a.part) || 0;
+				const partB = Number(b.part) || 0;
+				if (partA !== partB) return partA - partB;
+				return (Number(a.chapter) || 0) - (Number(b.chapter) || 0);
+			});
+
+		const idx = seriesDocs.findIndex((d) => d.path === currentPath);
+
+		if (idx > 0) {
+			const prev = seriesDocs[idx - 1];
+			prevLink = {
+				href: prev.path,
+				label: prev.title,
+				partChapter: chapterLabel(prev.part, prev.chapter),
+			};
+		}
+		if (idx >= 0 && idx < seriesDocs.length - 1) {
+			const next = seriesDocs[idx + 1];
+			nextLink = {
+				href: next.path,
+				label: next.title,
+				partChapter: chapterLabel(next.part, next.chapter),
+			};
+		}
+		if (idx >= 0) {
+			positionLabel = `${idx + 1} of ${seriesDocs.length}`;
+		}
+	}
+}
+
+const partChapterStr = isLibraryPage ? chapterLabel(partNum, chapterNum) : '';
+const dateStr = isLibraryPage ? formatDate(published) : '';
+---
+
+{isLibraryPage ? (
+	<div class="article-header">
+		{/* Breadcrumb trail */}
+		{seriesName && (
+			<nav class="article-breadcrumb" aria-label="Breadcrumb">
+				{seriesUrl ? (
+					<a href={seriesUrl}>{seriesName}</a>
+				) : (
+					<span>{seriesName}</span>
+				)}
+				{partNum && Number(partNum) > 0 && (
+					<>
+						<span class="breadcrumb-sep">/</span>
+						<span>Part {partNum}</span>
+					</>
+				)}
+			</nav>
+		)}
+
+		{/* Title with chapter label */}
+		<h1 id={PAGE_TITLE_ID}>
+			{partChapterStr && (
+				<span class="article-chapter-label">{partChapterStr}</span>
+			)}
+			{title}
+		</h1>
+
+		{/* Metadata row */}
+		<div class="article-meta">
+			{author && (
+				<span class="meta-item">
+					<span class="meta-label">By</span>
+					<a href={`/browse/authors/${author.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/`} class="meta-author">{author}</a>
+				</span>
+			)}
+			{dateStr && dateStr !== 'Date unknown' && (
+				<span class="meta-item">
+					<span class="meta-sep">&middot;</span>
+					{dateStr}
+				</span>
+			)}
+			{source && (
+				<span class="meta-item">
+					<span class="meta-sep">&middot;</span>
+					<span class="meta-source">{source}</span>
+				</span>
+			)}
+			{typeName && typeName !== 'Chapter' && typeName !== 'Series Overview' && (
+				<span class="meta-item">
+					<span class="meta-sep">&middot;</span>
+					{typeName}
+				</span>
+			)}
+		</div>
+
+		{/* Tags */}
+		{tags.length > 0 && (
+			<div class="article-tags">
+				{tags.map((tag) => (
+					<a href={`/browse/topics/#${tag}`} class="article-tag">{formatTag(tag)}</a>
+				))}
+			</div>
+		)}
+
+		{/* Top navigation */}
+		{(prevLink || nextLink || seriesUrl) && (
+			<nav class="article-top-nav" aria-label="Chapter navigation">
+				<div class="top-nav-row">
+					{prevLink ? (
+						<a href={prevLink.href} class="top-nav-link prev">
+							<span class="top-nav-arrow">&larr;</span>
+							<span class="top-nav-text">
+								{prevLink.partChapter && <span class="top-nav-chapter">{prevLink.partChapter}</span>}
+								<span class="top-nav-title">{prevLink.label}</span>
+							</span>
+						</a>
+					) : (
+						<span class="top-nav-spacer" />
+					)}
+
+					{seriesUrl && (
+						<a href={seriesUrl} class="top-nav-collection" title={`Back to ${seriesName}`}>
+							{positionLabel && <span class="top-nav-position">{positionLabel}</span>}
+							<span class="top-nav-collection-icon">&#9776;</span>
+						</a>
+					)}
+
+					{nextLink ? (
+						<a href={nextLink.href} class="top-nav-link next">
+							<span class="top-nav-text">
+								{nextLink.partChapter && <span class="top-nav-chapter">{nextLink.partChapter}</span>}
+								<span class="top-nav-title">{nextLink.label}</span>
+							</span>
+							<span class="top-nav-arrow">&rarr;</span>
+						</a>
+					) : (
+						<span class="top-nav-spacer" />
+					)}
+				</div>
+			</nav>
+		)}
+	</div>
+) : (
+	<h1 id={PAGE_TITLE_ID}>{title}</h1>
+)}
+
+<style>
+	@layer starlight.custom {
+		/* Default title style (non-library pages) */
+		h1 {
+			margin-top: 1rem;
+			font-size: var(--sl-text-h1);
+			line-height: var(--sl-line-height-headings);
+			font-weight: 600;
+			color: var(--sl-color-white);
+		}
+
+		/* Article header wrapper */
+		.article-header {
+			margin-top: 0.5rem;
+		}
+
+		.article-header h1 {
+			margin-top: 0.25rem;
+			margin-bottom: 0.5rem;
+		}
+
+		/* Breadcrumb */
+		.article-breadcrumb {
+			display: flex;
+			align-items: center;
+			gap: 0.35rem;
+			font-size: 0.8rem;
+			color: var(--sl-color-gray-3);
+			margin-bottom: 0.25rem;
+		}
+
+		.article-breadcrumb a {
+			color: var(--sl-color-accent);
+			text-decoration: none;
+		}
+
+		.article-breadcrumb a:hover {
+			text-decoration: underline;
+		}
+
+		.breadcrumb-sep {
+			color: var(--sl-color-gray-4);
+		}
+
+		/* Chapter label above the title */
+		.article-chapter-label {
+			display: block;
+			font-size: 0.8rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			color: var(--sl-color-accent);
+			margin-bottom: 0.15rem;
+		}
+
+		/* Metadata row */
+		.article-meta {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.25rem;
+			font-size: 0.85rem;
+			color: var(--sl-color-gray-3);
+			margin-bottom: 0.5rem;
+		}
+
+		.meta-item {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.25rem;
+		}
+
+		.meta-author {
+			color: var(--sl-color-accent);
+			text-decoration: none;
+			font-weight: 500;
+		}
+
+		.meta-author:hover {
+			text-decoration: underline;
+		}
+
+		.meta-sep {
+			color: var(--sl-color-gray-5);
+		}
+
+		.meta-source {
+			font-style: italic;
+		}
+
+		/* Tags */
+		.article-tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.35rem;
+			margin-bottom: 0.75rem;
+		}
+
+		.article-tag {
+			display: inline-block;
+			font-size: 0.7rem;
+			font-weight: 500;
+			color: var(--sl-color-accent);
+			background: var(--sl-color-accent-high);
+			padding: 0.1rem 0.45rem;
+			border-radius: 0.2rem;
+			text-decoration: none;
+			transition: opacity 0.15s ease;
+		}
+
+		.article-tag:hover {
+			opacity: 0.8;
+		}
+
+		/* Top navigation */
+		.article-top-nav {
+			margin-top: 0.25rem;
+			margin-bottom: 1.5rem;
+			padding: 0.5rem 0;
+			border-top: 1px solid var(--sl-color-gray-6);
+			border-bottom: 1px solid var(--sl-color-gray-6);
+		}
+
+		.top-nav-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.5rem;
+		}
+
+		.top-nav-link {
+			display: flex;
+			align-items: center;
+			gap: 0.35rem;
+			text-decoration: none;
+			color: var(--sl-color-gray-2);
+			font-size: 0.8rem;
+			max-width: 40%;
+			transition: color 0.15s ease;
+		}
+
+		.top-nav-link:hover {
+			color: var(--sl-color-accent);
+		}
+
+		.top-nav-link.next {
+			text-align: right;
+			justify-content: flex-end;
+		}
+
+		.top-nav-arrow {
+			flex-shrink: 0;
+			font-size: 0.9rem;
+		}
+
+		.top-nav-text {
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+			min-width: 0;
+		}
+
+		.top-nav-chapter {
+			font-size: 0.65rem;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			color: var(--sl-color-gray-3);
+		}
+
+		.top-nav-title {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.top-nav-spacer {
+			flex: 1;
+		}
+
+		.top-nav-collection {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.1rem;
+			text-decoration: none;
+			color: var(--sl-color-gray-2);
+			font-size: 0.8rem;
+			padding: 0.2rem 0.5rem;
+			border-radius: 0.25rem;
+			border: 1px solid var(--sl-color-gray-5);
+			transition: border-color 0.15s ease, color 0.15s ease;
+			flex-shrink: 0;
+		}
+
+		.top-nav-collection:hover {
+			border-color: var(--sl-color-accent);
+			color: var(--sl-color-accent);
+		}
+
+		.top-nav-position {
+			font-size: 0.65rem;
+			color: var(--sl-color-gray-3);
+		}
+
+		.top-nav-collection-icon {
+			font-size: 1rem;
+			line-height: 1;
+		}
+
+		@media (max-width: 40rem) {
+			.top-nav-link {
+				max-width: 35%;
+			}
+		}
+	}
+</style>

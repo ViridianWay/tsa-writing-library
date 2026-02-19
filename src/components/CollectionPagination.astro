@@ -1,19 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-
-const collectionUrls: Record<string, string> = {
-	"In Darkest England": "/collections/in-darkest-england/",
-	"The Founder's Messages to Soldiers": "/collections/founders-messages/",
-	"Fishing for Men": "/collections/fishing-for-men/",
-	"How to Reach the Masses with the Gospel": "/collections/how-to-reach-the-masses/",
-	"How to Preach": "/collections/how-to-preach/",
-};
+import { collectionUrls, chapterLabel } from '../lib/collections';
 
 const currentPath = Astro.url.pathname;
 const isLibraryPage = currentPath.startsWith('/library/');
 
-let prevLink: { href: string; label: string } | null = null;
-let nextLink: { href: string; label: string } | null = null;
+let prevLink: { href: string; label: string; partChapter: string } | null = null;
+let nextLink: { href: string; label: string; partChapter: string } | null = null;
 let collectionLink: { href: string; label: string } | null = null;
 
 if (isLibraryPage) {
@@ -52,10 +45,20 @@ if (isLibraryPage) {
 			const idx = seriesDocs.findIndex((d) => d.path === currentPath);
 
 			if (idx > 0) {
-				prevLink = { href: seriesDocs[idx - 1].path, label: seriesDocs[idx - 1].title };
+				const prev = seriesDocs[idx - 1];
+				prevLink = {
+					href: prev.path,
+					label: prev.title,
+					partChapter: chapterLabel(prev.part, prev.chapter),
+				};
 			}
 			if (idx >= 0 && idx < seriesDocs.length - 1) {
-				nextLink = { href: seriesDocs[idx + 1].path, label: seriesDocs[idx + 1].title };
+				const next = seriesDocs[idx + 1];
+				nextLink = {
+					href: next.path,
+					label: next.title,
+					partChapter: chapterLabel(next.part, next.chapter),
+				};
 			}
 		}
 	}
@@ -67,7 +70,7 @@ if (isLibraryPage) {
 		<div class="chapter-nav-links">
 			{prevLink ? (
 				<a href={prevLink.href} class="chapter-link prev" rel="prev">
-					<span class="chapter-dir">&larr; Previous</span>
+					<span class="chapter-dir">&larr; Previous{prevLink.partChapter ? ` · ${prevLink.partChapter}` : ''}</span>
 					<span class="chapter-title">{prevLink.label}</span>
 				</a>
 			) : collectionLink ? (
@@ -80,7 +83,7 @@ if (isLibraryPage) {
 			)}
 			{nextLink ? (
 				<a href={nextLink.href} class="chapter-link next" rel="next">
-					<span class="chapter-dir">Next &rarr;</span>
+					<span class="chapter-dir">Next{nextLink.partChapter ? ` · ${nextLink.partChapter}` : ''} &rarr;</span>
 					<span class="chapter-title">{nextLink.label}</span>
 				</a>
 			) : collectionLink ? (

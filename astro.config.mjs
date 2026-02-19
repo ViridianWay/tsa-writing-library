@@ -11,6 +11,8 @@ export default defineConfig({
 				'A digital archive of historical and contemporary Salvation Army writings.',
 			components: {
 				Pagination: './src/components/CollectionPagination.astro',
+				PageTitle: './src/components/ArticleHeader.astro',
+				Sidebar: './src/components/LibrarySidebar.astro',
 			},
 			sidebar: [
 				{

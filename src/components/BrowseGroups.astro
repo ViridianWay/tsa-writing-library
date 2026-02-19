@@ -1,12 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
+import { formatDate, formatTag, authorSlug, collectionUrls } from '../lib/collections';
 
 interface Props {
 	mode: 'author' | 'series' | 'type' | 'tag' | 'year';
 	emptyLabel?: string;
+	/** For author mode: if true, show only the index (name + count) linking to individual pages */
+	authorIndex?: boolean;
+	/** For author mode on individual pages: filter to only this author */
+	filterAuthor?: string;
 }
 
-const { mode, emptyLabel = 'Uncategorized' } = Astro.props as Props;
+const { mode, emptyLabel = 'Uncategorized', authorIndex = false, filterAuthor } = Astro.props as Props;
 
 const docs = await getCollection('docs');
 
@@ -25,54 +30,118 @@ const works = docs
 		type: entry.data.type,
 		tags: entry.data.tags ?? [],
 		published: entry.data.published,
+		part: entry.data.part,
+		chapter: entry.data.chapter,
 	}));
 
-const groups = new Map<string, { title: string; path: string }[]>();
+// For author filtering (individual author pages)
+const filteredWorks = filterAuthor
+	? works.filter((w) => w.author === filterAuthor)
+	: works;
 
-const addToGroup = (name: string | undefined, item: { title: string; path: string }) => {
+const groups = new Map<string, typeof filteredWorks>();
+
+const addToGroup = (name: string | undefined, item: (typeof filteredWorks)[number]) => {
 	const key = name && name.trim() ? name.trim() : emptyLabel;
 	const list = groups.get(key) ?? [];
 	list.push(item);
 	groups.set(key, list);
 };
 
-for (const work of works) {
-	const item = { title: work.title, path: work.path };
-
-	if (mode === 'author') addToGroup(work.author, item);
-	if (mode === 'series') addToGroup(work.series, item);
-	if (mode === 'type') addToGroup(work.type, item);
+for (const work of filteredWorks) {
+	if (mode === 'author') addToGroup(work.author, work);
+	if (mode === 'series') addToGroup(work.series, work);
+	if (mode === 'type') addToGroup(work.type, work);
 	if (mode === 'tag') {
-		if (work.tags.length === 0) addToGroup(undefined, item);
-		else for (const tag of work.tags) addToGroup(tag, item);
+		if (work.tags.length === 0) addToGroup(undefined, work);
+		else for (const tag of work.tags) addToGroup(tag, work);
 	}
 	if (mode === 'year') {
-		const year = String(work.published ?? '').match(/\d{4}/)?.[0];
-		addToGroup(year, item);
+		const rawYear = String(work.published ?? '').match(/\d{4}/)?.[0];
+		// "0000" means unknown — remap to emptyLabel
+		const year = rawYear === '0000' ? undefined : rawYear;
+		addToGroup(year, work);
 	}
 }
 
+// Sort groups
 const sortedGroups = [...groups.entries()]
 	.map(([name, items]) => ({
 		name,
-		items: items.sort((a, b) => a.title.localeCompare(b.title)),
+		items: items.sort((a, b) => {
+			// For series mode: sort by part then chapter within each series
+			if (mode === 'series') {
+				const partA = Number(a.part) || 0;
+				const partB = Number(b.part) || 0;
+				if (partA !== partB) return partA - partB;
+				const chA = Number(a.chapter) || 0;
+				const chB = Number(b.chapter) || 0;
+				if (chA !== chB) return chA - chB;
+			}
+			return a.title.localeCompare(b.title);
+		}),
 	}))
-	.sort((a, b) => a.name.localeCompare(b.name));
+	.sort((a, b) => {
+		// Put "Unknown Year" / emptyLabel at the end
+		if (a.name === emptyLabel) return 1;
+		if (b.name === emptyLabel) return -1;
+		// For year mode, sort numerically descending (newest first)
+		if (mode === 'year') {
+			return b.name.localeCompare(a.name);
+		}
+		return a.name.localeCompare(b.name);
+	});
+
+// Helper to get a nice label for items in series mode
+function seriesItemLabel(work: (typeof filteredWorks)[number]): string {
+	const parts: string[] = [];
+	if (work.part && Number(work.part) > 0) parts.push(`Pt. ${work.part}`);
+	if (work.chapter && Number(work.chapter) > 0) parts.push(`Ch. ${work.chapter}`);
+	const prefix = parts.length > 0 ? `${parts.join(', ')} — ` : '';
+	return `${prefix}${work.title}`;
+}
 ---
 
-{sortedGroups.length === 0 ? (
+{authorIndex ? (
+	/* Author index mode: show author cards linking to their pages */
+	<div class="author-index">
+		{sortedGroups.map((group) => (
+			<a href={`/browse/authors/${authorSlug(group.name)}/`} class="author-card">
+				<span class="author-card-name">{group.name}</span>
+				<span class="author-card-count">{group.items.length} {group.items.length === 1 ? 'work' : 'works'}</span>
+			</a>
+		))}
+	</div>
+) : sortedGroups.length === 0 ? (
 	<p>No library works found yet.</p>
 ) : (
 	<>
 		{sortedGroups.map((group) => (
-			<section class="browse-group">
+			<section class="browse-group" id={mode === 'tag' ? group.name : undefined}>
 				<h2>
-					{group.name}
+					{/* For series groups with a collection page, link the heading */}
+					{mode === 'series' && collectionUrls[group.name] ? (
+						<a href={collectionUrls[group.name]} class="browse-group-link">{group.name}</a>
+					) : (
+						group.name
+					)}
 					<span class="browse-count">{group.items.length}</span>
 				</h2>
 				<div class="browse-items">
 					{group.items.map((work) => (
-						<a href={work.path} class="browse-item">{work.title}</a>
+						<a href={work.path} class="browse-item">
+							<span class="browse-item-title">
+								{mode === 'series'
+									? seriesItemLabel(work)
+									: work.title}
+							</span>
+							{mode === 'author' && work.series && (
+								<span class="browse-item-series">{work.series}</span>
+							)}
+							{(mode === 'year' || mode === 'author') && work.type && (
+								<span class="browse-item-type">{work.type}</span>
+							)}
+						</a>
 					))}
 				</div>
 			</section>
