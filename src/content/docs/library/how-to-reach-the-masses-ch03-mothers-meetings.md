@@ -3,6 +3,7 @@ title: "Mothers' Meetings"
 author: "William Booth"
 series: "How to Reach the Masses with the Gospel"
 type: "Chapter"
+chapter: 3
 description: "Mothers' meetings, maternal society, relief work, and social ministry among the poor"
 published: "1872-00-00"
 tags: ["William Booth", "mothers' meetings", "maternal society", "poverty relief", "temperance", "social work", "Whitechapel"]

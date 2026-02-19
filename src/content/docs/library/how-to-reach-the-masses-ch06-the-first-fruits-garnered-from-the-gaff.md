@@ -2,7 +2,8 @@
 title: "The First Fruits Garnered from the Gaff"
 author: "William Booth"
 series: "How to Reach the Masses with the Gospel"
-type: "Book Chapter"
+type: "Chapter"
+chapter: 6
 description: "Stories of conversions and mission work across London stations"
 published: "1872-00-00"
 tags: ["Christian Mission", "Evangelism", "East London", "Conversions", "Testimonies", "Urban Ministry"]
