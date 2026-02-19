@@ -7,7 +7,7 @@ description: "Preface by the Editor of 'The Christian'"
 published: "1872-00-00"
 tags: ["William Booth", "East London Mission", "evangelism", "masses", "gospel", "preface"]
 ---
-3
+
 # Preface
 
 _From "How to Reach the Masses with the Gospel" by William Booth_

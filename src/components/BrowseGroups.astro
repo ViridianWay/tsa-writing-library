@@ -65,13 +65,16 @@ const sortedGroups = [...groups.entries()]
 ) : (
 	<>
 		{sortedGroups.map((group) => (
-			<section>
-				<h2>{group.name}</h2>
-				<ul>
+			<section class="browse-group">
+				<h2>
+					{group.name}
+					<span class="browse-count">{group.items.length}</span>
+				</h2>
+				<div class="browse-items">
 					{group.items.map((work) => (
-						<li><a href={work.path}>{work.title}</a></li>
+						<a href={work.path} class="browse-item">{work.title}</a>
 					))}
-				</ul>
+				</div>
 			</section>
 		))}
 	</>

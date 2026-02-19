@@ -9,6 +9,9 @@ export default defineConfig({
 			title: 'TSA Writing Library',
 			description:
 				'A digital archive of historical and contemporary Salvation Army writings.',
+			components: {
+				Pagination: './src/components/CollectionPagination.astro',
+			},
 			sidebar: [
 				{
 					label: 'Browse',
