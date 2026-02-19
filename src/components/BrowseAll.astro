@@ -76,6 +76,14 @@ const allTags = [...new Set(works.flatMap((w) => w.tags))].sort();
 	{/* Active filters + result count */}
 	<div class="browse-status">
 		<span id="browse-result-count" class="browse-result-count">{works.length} writings</span>
+		<span class="browse-sort">
+			<label for="browse-sort-select" class="browse-sort-label">Sort:</label>
+			<select id="browse-sort-select" class="browse-sort-select">
+				<option value="title">A&ndash;Z</option>
+				<option value="year-desc">Year (newest)</option>
+				<option value="year-asc">Year (oldest)</option>
+			</select>
+		</span>
 		<button id="browse-clear-filters" class="browse-clear-btn" style="display:none;">Clear filters</button>
 	</div>
 
@@ -124,13 +132,34 @@ const allTags = [...new Set(works.flatMap((w) => w.tags))].sort();
 		const typeSelect = document.getElementById('filter-type') as HTMLSelectElement;
 		const yearSelect = document.getElementById('filter-year') as HTMLSelectElement;
 		const seriesSelect = document.getElementById('filter-series') as HTMLSelectElement;
+		const sortSelect = document.getElementById('browse-sort-select') as HTMLSelectElement;
 		const resultCount = document.getElementById('browse-result-count')!;
 		const clearBtn = document.getElementById('browse-clear-filters')!;
 		const noResults = document.getElementById('browse-no-results')!;
+		const worksList = document.getElementById('browse-works-list')!;
 		const items = document.querySelectorAll<HTMLElement>('.browse-work-item');
 		const tagChips = document.querySelectorAll<HTMLButtonElement>('.browse-tag-chip');
 
 		let activeTag = '';
+
+		function sortItems() {
+			const mode = sortSelect.value;
+			const arr = Array.from(worksList.querySelectorAll<HTMLElement>('.browse-work-item'));
+			arr.sort((a, b) => {
+				if (mode === 'title') {
+					return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+				}
+				const ya = a.dataset.year || '';
+				const yb = b.dataset.year || '';
+				if (ya !== yb) {
+					return mode === 'year-desc'
+						? yb.localeCompare(ya)
+						: ya.localeCompare(yb);
+				}
+				return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+			});
+			arr.forEach((el) => worksList.appendChild(el));
+		}
 
 		function applyFilters() {
 			const query = searchInput.value.toLowerCase().trim();
@@ -176,6 +205,7 @@ const allTags = [...new Set(works.flatMap((w) => w.tags))].sort();
 		typeSelect.addEventListener('change', applyFilters);
 		yearSelect.addEventListener('change', applyFilters);
 		seriesSelect.addEventListener('change', applyFilters);
+		sortSelect.addEventListener('change', sortItems);
 
 		tagChips.forEach((chip) => {
 			chip.addEventListener('click', () => {
@@ -198,8 +228,10 @@ const allTags = [...new Set(works.flatMap((w) => w.tags))].sort();
 			typeSelect.value = '';
 			yearSelect.value = '';
 			seriesSelect.value = '';
+			sortSelect.value = 'title';
 			activeTag = '';
 			tagChips.forEach((c) => c.classList.remove('active'));
+			sortItems();
 			applyFilters();
 		});
 
@@ -227,6 +259,13 @@ const allTags = [...new Set(works.flatMap((w) => w.tags))].sort();
 			}
 			if (params.has('q')) {
 				searchInput.value = params.get('q') || '';
+			}
+			if (params.has('sort')) {
+				const s = params.get('sort') || '';
+				if (['title', 'year-desc', 'year-asc'].includes(s)) {
+					sortSelect.value = s;
+					sortItems();
+				}
 			}
 			applyFilters();
 		}
@@ -298,6 +337,33 @@ const allTags = [...new Set(works.flatMap((w) => w.tags))].sort();
 			margin-bottom: 0.5rem;
 			font-size: 0.8rem;
 			color: var(--sl-color-gray-3);
+		}
+
+		.browse-sort {
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
+			margin-left: auto;
+		}
+
+		.browse-sort-label {
+			font-size: 0.8rem;
+			color: var(--sl-color-gray-3);
+		}
+
+		.browse-sort-select {
+			font-size: 0.75rem;
+			padding: 0.15rem 0.4rem;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.2rem;
+			background: var(--sl-color-bg);
+			color: var(--sl-color-text);
+			cursor: pointer;
+		}
+
+		.browse-sort-select:focus {
+			border-color: var(--sl-color-accent);
+			outline: none;
 		}
 
 		.browse-clear-btn {
