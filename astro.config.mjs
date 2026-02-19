@@ -16,13 +16,9 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
-					label: 'Browse',
+					label: 'Library',
 					items: [
-						{ label: 'By Author', slug: 'browse/authors' },
-						{ label: 'By Collection', slug: 'browse/series' },
-						{ label: 'By Type', slug: 'browse/types' },
-						{ label: 'By Topic', slug: 'browse/topics' },
-						{ label: 'By Year', slug: 'browse/years' },
+						{ label: 'Browse', slug: 'browse' },
 					],
 				},
 				{

@@ -1,9 +1,9 @@
 ---
 title: "Introductory Note"
-author: "The General"
+author: "Bramwell Booth"
 series: "The Founder's Messages to Soldiers"
 type: "Chapter"
-description: "Introductory Note by The General"
+description: "Introductory Note by Bramwell Booth"
 published: "1921-04-00"
 tags: ["william-booth", "salvation-army", "soldiers", "messages", "letters", "introductory-note", "bramwell-booth"]
 ---

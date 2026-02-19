@@ -1,9 +1,9 @@
 ---
 title: "Preface"
-author: "Editor of 'The Christian'"
+author: "Unknown"
 series: "How to Reach the Masses with the Gospel"
 type: "Chapter"
-description: "Preface by the Editor of 'The Christian'"
+description: "Preface by the editor of The Christian magazine"
 published: "1872-00-00"
 tags: ["William Booth", "East London Mission", "evangelism", "masses", "gospel", "preface"]
 ---

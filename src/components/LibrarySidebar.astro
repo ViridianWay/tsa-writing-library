@@ -104,9 +104,7 @@ if (isLibraryPage) {
 		<div class="sidebar-quick-nav">
 			<a href="/" class="quick-nav-link">Home</a>
 			<span class="quick-nav-sep">&middot;</span>
-			<a href="/browse/series/" class="quick-nav-link">Browse</a>
-			<span class="quick-nav-sep">&middot;</span>
-			<a href="/browse/topics/" class="quick-nav-link">Topics</a>
+			<a href="/browse/" class="quick-nav-link">Browse</a>
 		</div>
 
 		{/* Collection header */}
@@ -164,16 +162,37 @@ if (isLibraryPage) {
 
 		.sidebar-collection-title {
 			display: block;
-			font-size: var(--sl-text-base);
-			font-weight: 600;
+			font-size: 1.05rem;
+			font-weight: 700;
 			color: var(--sl-color-white);
 			text-decoration: none;
-			padding: 0 0.5rem 0.5rem;
+			padding: 0 0.5rem 0.6rem;
 			line-height: 1.3;
+			border-bottom: 2px solid var(--sl-color-accent);
+			margin-bottom: 0.5rem;
 		}
 
 		a.sidebar-collection-title:hover {
 			color: var(--sl-color-accent);
+		}
+
+		/* Part group labels — visually subordinate to collection title */
+		.library-sidebar :global(.top-level > li > details > summary),
+		.library-sidebar :global(ul > li > details > summary) {
+			font-size: 0.7rem !important;
+			font-weight: 600 !important;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			color: var(--sl-color-gray-3) !important;
+			padding-top: 0.5rem;
+			padding-bottom: 0.15rem;
+		}
+
+		/* Chapter links — smaller, clearly items under a group */
+		.library-sidebar :global(a) {
+			font-size: 0.82rem !important;
+			padding-top: 0.2rem;
+			padding-bottom: 0.2rem;
 		}
 	}
 </style>

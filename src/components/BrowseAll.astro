@@ -1,0 +1,461 @@
+---
+import { getCollection } from 'astro:content';
+import { formatDate, formatTag, collectionUrls } from '../lib/collections';
+
+const docs = await getCollection('docs');
+
+const toPath = (entry: (typeof docs)[number]) => {
+	const raw = entry.slug ?? entry.id.replace(/\.(md|mdx)$/, '');
+	return `/${raw.replace(/\/index$/, '')}/`;
+};
+
+const works = docs
+	.filter((entry) => entry.id.startsWith('library/') && !entry.id.endsWith('/index.md'))
+	.map((entry) => ({
+		title: entry.data.title,
+		path: toPath(entry),
+		author: entry.data.author || '',
+		series: entry.data.series || '',
+		type: entry.data.type || '',
+		tags: (entry.data.tags ?? []) as string[],
+		published: String(entry.data.published ?? ''),
+		year: String(entry.data.published ?? '').match(/\d{4}/)?.[0] || '',
+	}))
+	.sort((a, b) => a.title.localeCompare(b.title));
+
+// Gather unique values for filters
+const authors = [...new Set(works.map((w) => w.author).filter(Boolean))].sort();
+const types = [...new Set(works.map((w) => w.type).filter(Boolean))].sort();
+const years = [...new Set(works.map((w) => w.year).filter((y) => y && y !== '0000'))].sort().reverse();
+const seriesList = [...new Set(works.map((w) => w.series).filter(Boolean))].sort();
+const allTags = [...new Set(works.flatMap((w) => w.tags))].sort();
+---
+
+<div class="browse-all" id="browse-all">
+	{/* Search bar */}
+	<div class="browse-search">
+		<input
+			type="text"
+			id="browse-search-input"
+			placeholder="Search writings..."
+			autocomplete="off"
+		/>
+	</div>
+
+	{/* Filter controls */}
+	<div class="browse-filters">
+		<select id="filter-author" class="browse-filter-select">
+			<option value="">All Authors</option>
+			{authors.map((a) => (
+				<option value={a}>{a}</option>
+			))}
+		</select>
+
+		<select id="filter-type" class="browse-filter-select">
+			<option value="">All Types</option>
+			{types.map((t) => (
+				<option value={t}>{t}</option>
+			))}
+		</select>
+
+		<select id="filter-year" class="browse-filter-select">
+			<option value="">All Years</option>
+			{years.map((y) => (
+				<option value={y}>{y}</option>
+			))}
+		</select>
+
+		<select id="filter-series" class="browse-filter-select">
+			<option value="">All Collections</option>
+			{seriesList.map((s) => (
+				<option value={s}>{s}</option>
+			))}
+		</select>
+	</div>
+
+	{/* Active filters + result count */}
+	<div class="browse-status">
+		<span id="browse-result-count" class="browse-result-count">{works.length} writings</span>
+		<button id="browse-clear-filters" class="browse-clear-btn" style="display:none;">Clear filters</button>
+	</div>
+
+	{/* Topic tags (collapsible) */}
+	<details class="browse-tags-section">
+		<summary class="browse-tags-toggle">Filter by topic</summary>
+		<div class="browse-tag-chips" id="browse-tag-chips">
+			{allTags.map((tag) => (
+				<button class="browse-tag-chip" data-tag={tag}>{formatTag(tag)}</button>
+			))}
+		</div>
+	</details>
+
+	{/* Works list */}
+	<div class="browse-works-list" id="browse-works-list">
+		{works.map((work) => (
+			<a
+				href={work.path}
+				class="browse-work-item"
+				data-author={work.author}
+				data-type={work.type}
+				data-year={work.year}
+				data-series={work.series}
+				data-tags={work.tags.join(',')}
+				data-title={work.title.toLowerCase()}
+			>
+				<span class="browse-work-title">{work.title}</span>
+				<span class="browse-work-meta">
+					{work.author && <span class="browse-work-author">{work.author}</span>}
+					{work.series && <span class="browse-work-series">{work.series}</span>}
+					{work.type && <span class="browse-work-type">{work.type}</span>}
+					{work.year && work.year !== '0000' && <span class="browse-work-year">{work.year}</span>}
+				</span>
+			</a>
+		))}
+	</div>
+
+	{/* No results message */}
+	<p id="browse-no-results" class="browse-no-results" style="display:none;">No writings match your filters.</p>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const searchInput = document.getElementById('browse-search-input') as HTMLInputElement;
+		const authorSelect = document.getElementById('filter-author') as HTMLSelectElement;
+		const typeSelect = document.getElementById('filter-type') as HTMLSelectElement;
+		const yearSelect = document.getElementById('filter-year') as HTMLSelectElement;
+		const seriesSelect = document.getElementById('filter-series') as HTMLSelectElement;
+		const resultCount = document.getElementById('browse-result-count')!;
+		const clearBtn = document.getElementById('browse-clear-filters')!;
+		const noResults = document.getElementById('browse-no-results')!;
+		const items = document.querySelectorAll<HTMLElement>('.browse-work-item');
+		const tagChips = document.querySelectorAll<HTMLButtonElement>('.browse-tag-chip');
+
+		let activeTag = '';
+
+		function applyFilters() {
+			const query = searchInput.value.toLowerCase().trim();
+			const author = authorSelect.value;
+			const type = typeSelect.value;
+			const year = yearSelect.value;
+			const series = seriesSelect.value;
+
+			let visible = 0;
+
+			items.forEach((item) => {
+				const title = item.dataset.title || '';
+				const itemAuthor = item.dataset.author || '';
+				const itemType = item.dataset.type || '';
+				const itemYear = item.dataset.year || '';
+				const itemSeries = item.dataset.series || '';
+				const itemTags = item.dataset.tags || '';
+
+				let show = true;
+
+				if (query && !title.includes(query) && !itemAuthor.toLowerCase().includes(query) && !itemSeries.toLowerCase().includes(query)) {
+					show = false;
+				}
+				if (author && itemAuthor !== author) show = false;
+				if (type && itemType !== type) show = false;
+				if (year && itemYear !== year) show = false;
+				if (series && itemSeries !== series) show = false;
+				if (activeTag && !itemTags.split(',').includes(activeTag)) show = false;
+
+				item.style.display = show ? '' : 'none';
+				if (show) visible++;
+			});
+
+			resultCount.textContent = `${visible} writing${visible !== 1 ? 's' : ''}`;
+			noResults.style.display = visible === 0 ? '' : 'none';
+
+			const hasFilters = query || author || type || year || series || activeTag;
+			clearBtn.style.display = hasFilters ? '' : 'none';
+		}
+
+		searchInput.addEventListener('input', applyFilters);
+		authorSelect.addEventListener('change', applyFilters);
+		typeSelect.addEventListener('change', applyFilters);
+		yearSelect.addEventListener('change', applyFilters);
+		seriesSelect.addEventListener('change', applyFilters);
+
+		tagChips.forEach((chip) => {
+			chip.addEventListener('click', () => {
+				const tag = chip.dataset.tag || '';
+				if (activeTag === tag) {
+					activeTag = '';
+					chip.classList.remove('active');
+				} else {
+					tagChips.forEach((c) => c.classList.remove('active'));
+					activeTag = tag;
+					chip.classList.add('active');
+				}
+				applyFilters();
+			});
+		});
+
+		clearBtn.addEventListener('click', () => {
+			searchInput.value = '';
+			authorSelect.value = '';
+			typeSelect.value = '';
+			yearSelect.value = '';
+			seriesSelect.value = '';
+			activeTag = '';
+			tagChips.forEach((c) => c.classList.remove('active'));
+			applyFilters();
+		});
+
+		// Check for hash-based pre-filtering (e.g. #author=William+Booth)
+		const hash = window.location.hash.slice(1);
+		if (hash) {
+			const params = new URLSearchParams(hash);
+			if (params.has('author')) {
+				authorSelect.value = params.get('author') || '';
+			}
+			if (params.has('type')) {
+				typeSelect.value = params.get('type') || '';
+			}
+			if (params.has('year')) {
+				yearSelect.value = params.get('year') || '';
+			}
+			if (params.has('series')) {
+				seriesSelect.value = params.get('series') || '';
+			}
+			if (params.has('tag')) {
+				activeTag = params.get('tag') || '';
+				tagChips.forEach((c) => {
+					if (c.dataset.tag === activeTag) c.classList.add('active');
+				});
+			}
+			if (params.has('q')) {
+				searchInput.value = params.get('q') || '';
+			}
+			applyFilters();
+		}
+	});
+</script>
+
+<style>
+	@layer starlight.custom {
+		.browse-all {
+			margin-top: 0.5rem;
+		}
+
+		/* Search */
+		.browse-search {
+			margin-bottom: 0.75rem;
+		}
+
+		#browse-search-input {
+			width: 100%;
+			padding: 0.6rem 0.75rem;
+			font-size: 0.95rem;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.375rem;
+			background: var(--sl-color-bg);
+			color: var(--sl-color-text);
+			outline: none;
+			transition: border-color 0.15s ease;
+		}
+
+		#browse-search-input:focus {
+			border-color: var(--sl-color-accent);
+		}
+
+		#browse-search-input::placeholder {
+			color: var(--sl-color-gray-3);
+		}
+
+		/* Filters row */
+		.browse-filters {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin-bottom: 0.75rem;
+		}
+
+		.browse-filter-select {
+			padding: 0.4rem 0.6rem;
+			font-size: 0.8rem;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.25rem;
+			background: var(--sl-color-bg);
+			color: var(--sl-color-text);
+			cursor: pointer;
+			min-width: 0;
+			flex: 1;
+			max-width: 200px;
+		}
+
+		.browse-filter-select:focus {
+			border-color: var(--sl-color-accent);
+			outline: none;
+		}
+
+		/* Status row */
+		.browse-status {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			margin-bottom: 0.5rem;
+			font-size: 0.8rem;
+			color: var(--sl-color-gray-3);
+		}
+
+		.browse-clear-btn {
+			font-size: 0.75rem;
+			color: var(--sl-color-accent);
+			background: none;
+			border: 1px solid var(--sl-color-accent);
+			border-radius: 0.2rem;
+			padding: 0.15rem 0.5rem;
+			cursor: pointer;
+			transition: background 0.15s ease;
+		}
+
+		.browse-clear-btn:hover {
+			background: var(--sl-color-accent-high);
+		}
+
+		/* Topic tags */
+		.browse-tags-section {
+			margin-bottom: 0.75rem;
+			border: 1px solid var(--sl-color-gray-6);
+			border-radius: 0.25rem;
+			padding: 0;
+		}
+
+		.browse-tags-toggle {
+			font-size: 0.8rem;
+			color: var(--sl-color-gray-2);
+			cursor: pointer;
+			padding: 0.5rem 0.75rem;
+			user-select: none;
+		}
+
+		.browse-tags-toggle:hover {
+			color: var(--sl-color-accent);
+		}
+
+		.browse-tag-chips {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.3rem;
+			padding: 0.25rem 0.75rem 0.6rem;
+		}
+
+		.browse-tag-chip {
+			font-size: 0.7rem;
+			font-weight: 500;
+			color: var(--sl-color-gray-2);
+			background: var(--sl-color-bg-sidebar);
+			border: 1px solid var(--sl-color-gray-5);
+			padding: 0.15rem 0.45rem;
+			border-radius: 0.2rem;
+			cursor: pointer;
+			transition: all 0.15s ease;
+		}
+
+		.browse-tag-chip:hover {
+			border-color: var(--sl-color-accent);
+			color: var(--sl-color-accent);
+		}
+
+		.browse-tag-chip.active {
+			background: var(--sl-color-accent);
+			color: white;
+			border-color: var(--sl-color-accent);
+		}
+
+		/* Works list */
+		.browse-works-list {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.browse-work-item {
+			display: flex;
+			flex-direction: column;
+			gap: 0.15rem;
+			padding: 0.5rem 0.75rem;
+			text-decoration: none;
+			color: var(--sl-color-text);
+			border-bottom: 1px solid var(--sl-color-gray-6);
+			transition: background-color 0.15s ease;
+		}
+
+		.browse-work-item:hover {
+			background-color: var(--sl-color-gray-7);
+		}
+
+		.browse-work-item:hover .browse-work-title {
+			color: var(--sl-color-accent);
+		}
+
+		.browse-work-title {
+			font-weight: 500;
+			transition: color 0.15s ease;
+		}
+
+		.browse-work-meta {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.4rem;
+			font-size: 0.75rem;
+			color: var(--sl-color-gray-3);
+		}
+
+		.browse-work-author {
+			font-weight: 500;
+		}
+
+		.browse-work-series {
+			font-style: italic;
+		}
+
+		.browse-work-type {
+			font-size: 0.65rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+			color: var(--sl-color-accent);
+			background: var(--sl-color-accent-high);
+			padding: 0.05rem 0.3rem;
+			border-radius: 0.15rem;
+		}
+
+		.browse-work-year {
+			font-size: 0.7rem;
+		}
+
+		.browse-work-meta > span + span::before {
+			content: none;
+		}
+
+		/* Separator dots between meta items except for badges */
+		.browse-work-author + .browse-work-series::before,
+		.browse-work-author + .browse-work-year::before,
+		.browse-work-series + .browse-work-year::before {
+			content: '\00b7';
+			margin-right: 0.4rem;
+			color: var(--sl-color-gray-5);
+		}
+
+		/* No results */
+		.browse-no-results {
+			text-align: center;
+			color: var(--sl-color-gray-3);
+			padding: 2rem 0;
+			font-style: italic;
+		}
+
+		@media (max-width: 40rem) {
+			.browse-filters {
+				flex-direction: column;
+			}
+
+			.browse-filter-select {
+				max-width: 100%;
+			}
+		}
+	}
+</style>
