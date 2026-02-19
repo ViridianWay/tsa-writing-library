@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+	mode: 'author' | 'series' | 'type' | 'tag' | 'year';
+	emptyLabel?: string;
+}
+
+const { mode, emptyLabel = 'Uncategorized' } = Astro.props as Props;
+
+const docs = await getCollection('docs');
+
+const toPath = (entry: (typeof docs)[number]) => {
+	const raw = entry.slug ?? entry.id.replace(/\.(md|mdx)$/, '');
+	return `/${raw.replace(/\/index$/, '')}/`;
+};
+
+const works = docs
+	.filter((entry) => entry.id.startsWith('library/') && !entry.id.endsWith('/index.md'))
+	.map((entry) => ({
+		title: entry.data.title,
+		path: toPath(entry),
+		author: entry.data.author,
+		series: entry.data.series,
+		type: entry.data.type,
+		tags: entry.data.tags ?? [],
+		published: entry.data.published,
+	}));
+
+const groups = new Map<string, { title: string; path: string }[]>();
+
+const addToGroup = (name: string | undefined, item: { title: string; path: string }) => {
+	const key = name && name.trim() ? name.trim() : emptyLabel;
+	const list = groups.get(key) ?? [];
+	list.push(item);
+	groups.set(key, list);
+};
+
+for (const work of works) {
+	const item = { title: work.title, path: work.path };
+
+	if (mode === 'author') addToGroup(work.author, item);
+	if (mode === 'series') addToGroup(work.series, item);
+	if (mode === 'type') addToGroup(work.type, item);
+	if (mode === 'tag') {
+		if (work.tags.length === 0) addToGroup(undefined, item);
+		else for (const tag of work.tags) addToGroup(tag, item);
+	}
+	if (mode === 'year') {
+		const year = String(work.published ?? '').match(/\d{4}/)?.[0];
+		addToGroup(year, item);
+	}
+}
+
+const sortedGroups = [...groups.entries()]
+	.map(([name, items]) => ({
+		name,
+		items: items.sort((a, b) => a.title.localeCompare(b.title)),
+	}))
+	.sort((a, b) => a.name.localeCompare(b.name));
+---
+
+{sortedGroups.length === 0 ? (
+	<p>No library works found yet.</p>
+) : (
+	<>
+		{sortedGroups.map((group) => (
+			<section>
+				<h2>{group.name}</h2>
+				<ul>
+					{group.items.map((work) => (
+						<li><a href={work.path}>{work.title}</a></li>
+					))}
+				</ul>
+			</section>
+		))}
+	</>
+)}
