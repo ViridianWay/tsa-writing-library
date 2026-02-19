@@ -13,23 +13,11 @@ export default defineConfig({
 				{
 					label: 'Library',
 					items: [
-						{ label: 'Library Home', slug: 'library' },
-						{ label: 'Example Work', slug: 'library/example-work' },
-					],
-				},
-				{
-					label: 'Browse',
-					items: [
 						{ label: 'Authors', slug: 'authors' },
-						{ label: 'Series', slug: 'series' },
-						{ label: 'Types', slug: 'types' },
-						{ label: 'Tags', slug: 'tags' },
-						{ label: 'Years', slug: 'years' },
+						{ label: 'Topics', slug: 'topics' },
+						{ label: 'Publications', slug: 'publications' },
+						{ label: 'About', slug: 'about' },
 					],
-				},
-				{
-					label: 'Project',
-					items: [{ label: 'About', slug: 'about' }],
 				},
 			],
 		}),
