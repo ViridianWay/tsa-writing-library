@@ -2,7 +2,8 @@
 title: "Holiday Making in the Mission"
 author: "William Booth"
 series: "How to Reach the Masses with the Gospel"
-type: "Book Chapter"
+type: "Chapter"
+chapter: 7
 description: "Account of the Christian Mission's annual excursion to Tunbridge Wells"
 published: "1872-00-00"
 tags: ["Christian Mission", "Community", "Fellowship", "Recreation", "Testimonies", "Henry Reed", "Dunorlan"]

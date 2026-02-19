@@ -3,6 +3,7 @@ title: "The Children's Mission"
 author: "William Booth"
 series: "How to Reach the Masses with the Gospel"
 type: "Chapter"
+chapter: 2
 description: "Children's evangelism and the establishment of Children's Churches"
 published: "1872-00-00"
 tags: ["William Booth", "children's mission", "children's evangelism", "Sabbath school", "conversion", "tract distribution", "Whitechapel"]

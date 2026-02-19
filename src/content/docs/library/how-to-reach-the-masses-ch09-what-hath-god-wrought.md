@@ -2,7 +2,8 @@
 title: "What Hath God Wrought"
 author: "William Booth"
 series: "How to Reach the Masses with the Gospel"
-type: "Book Chapter"
+type: "Chapter"
+chapter: 9
 description: "Concluding reflection on the growth and achievements of the Christian Mission"
 published: "1872-00-00"
 tags: ["Christian Mission", "Growth", "Statistics", "Reflection", "Doxology", "Results", "Testimony"]

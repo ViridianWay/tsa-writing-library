@@ -2,7 +2,8 @@
 title: "The Workers in the Mission"
 author: "William Booth"
 series: "How to Reach the Masses with the Gospel"
-type: "Book Chapter"
+type: "Chapter"
+chapter: 8
 description: "Organization, support, and practical operation of the Christian Mission"
 published: "1872-00-00"
 tags: ["Christian Mission", "Workers", "Organization", "Funding", "Leadership", "Ministry", "Financial Support"]
