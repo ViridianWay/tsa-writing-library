@@ -62,28 +62,44 @@ if (hasParts) {
 {works.length === 0 ? (
 	<p>No works found for this collection.</p>
 ) : hasParts ? (
-	<>
+	<div class="toc-list">
 		{[...parts.entries()].sort(([a], [b]) => a - b).map(([partNum, items]) => (
-			<section>
-				{partNum > 0 && <h3>Part {partNum}</h3>}
-				<ol>
+			<section class="toc-part">
+				{partNum > 0 && <h3 class="toc-part-title">Part {partNum}</h3>}
+				<div class="toc-items">
 					{items.map((work) => (
-						<li>
-							<a href={work.path}>{work.title}</a>
-							{work.type === 'Series Overview' && <em> (Overview)</em>}
-						</li>
+						<a href={work.path} class="toc-item">
+							{Number(work.chapter) > 0 && (
+								<span class="toc-number">{work.chapter}</span>
+							)}
+							<span class="toc-title">
+								{work.title}
+								{work.type === 'Series Overview' && (
+									<span class="toc-badge">Overview</span>
+								)}
+							</span>
+						</a>
 					))}
-				</ol>
+				</div>
 			</section>
 		))}
-	</>
+	</div>
 ) : (
-	<ol>
-		{works.map((work) => (
-			<li>
-				<a href={work.path}>{work.title}</a>
-				{work.type === 'Series Overview' && <em> (Overview)</em>}
-			</li>
-		))}
-	</ol>
+	<div class="toc-list">
+		<div class="toc-items">
+			{works.map((work) => (
+				<a href={work.path} class="toc-item">
+					{Number(work.chapter) > 0 && (
+						<span class="toc-number">{work.chapter}</span>
+					)}
+					<span class="toc-title">
+						{work.title}
+						{work.type === 'Series Overview' && (
+							<span class="toc-badge">Overview</span>
+						)}
+					</span>
+				</a>
+			))}
+		</div>
+	</div>
 )}

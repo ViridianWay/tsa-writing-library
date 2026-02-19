@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+
+const collectionUrls: Record<string, string> = {
+	"In Darkest England": "/collections/in-darkest-england/",
+	"The Founder's Messages to Soldiers": "/collections/founders-messages/",
+	"Fishing for Men": "/collections/fishing-for-men/",
+	"How to Reach the Masses with the Gospel": "/collections/how-to-reach-the-masses/",
+	"How to Preach": "/collections/how-to-preach/",
+};
+
+const currentPath = Astro.url.pathname;
+const isLibraryPage = currentPath.startsWith('/library/');
+
+let prevLink: { href: string; label: string } | null = null;
+let nextLink: { href: string; label: string } | null = null;
+let collectionLink: { href: string; label: string } | null = null;
+
+if (isLibraryPage) {
+	const docs = await getCollection('docs');
+
+	const toPath = (entry: (typeof docs)[number]) => {
+		const raw = (entry as any).slug ?? entry.id.replace(/\.(md|mdx)$/, '');
+		return `/${raw.replace(/\/index$/, '')}/`;
+	};
+
+	const currentDoc = docs.find((doc) => toPath(doc) === currentPath);
+
+	if (currentDoc) {
+		const seriesName = (currentDoc.data as any).series as string | undefined;
+
+		if (seriesName) {
+			if (collectionUrls[seriesName]) {
+				collectionLink = { href: collectionUrls[seriesName], label: seriesName };
+			}
+
+			const seriesDocs = docs
+				.filter((d) => d.id.startsWith('library/') && (d.data as any).series === seriesName)
+				.map((d) => ({
+					title: (d.data as any).title as string,
+					path: toPath(d),
+					part: (d.data as any).part,
+					chapter: (d.data as any).chapter,
+				}))
+				.sort((a, b) => {
+					const partA = Number(a.part) || 0;
+					const partB = Number(b.part) || 0;
+					if (partA !== partB) return partA - partB;
+					return (Number(a.chapter) || 0) - (Number(b.chapter) || 0);
+				});
+
+			const idx = seriesDocs.findIndex((d) => d.path === currentPath);
+
+			if (idx > 0) {
+				prevLink = { href: seriesDocs[idx - 1].path, label: seriesDocs[idx - 1].title };
+			}
+			if (idx >= 0 && idx < seriesDocs.length - 1) {
+				nextLink = { href: seriesDocs[idx + 1].path, label: seriesDocs[idx + 1].title };
+			}
+		}
+	}
+}
+---
+
+{isLibraryPage && (prevLink || nextLink || collectionLink) ? (
+	<nav class="chapter-nav" aria-label="Chapter navigation">
+		<div class="chapter-nav-links">
+			{prevLink ? (
+				<a href={prevLink.href} class="chapter-link prev" rel="prev">
+					<span class="chapter-dir">&larr; Previous</span>
+					<span class="chapter-title">{prevLink.label}</span>
+				</a>
+			) : collectionLink ? (
+				<a href={collectionLink.href} class="chapter-link prev">
+					<span class="chapter-dir">&larr; Collection</span>
+					<span class="chapter-title">{collectionLink.label}</span>
+				</a>
+			) : (
+				<span />
+			)}
+			{nextLink ? (
+				<a href={nextLink.href} class="chapter-link next" rel="next">
+					<span class="chapter-dir">Next &rarr;</span>
+					<span class="chapter-title">{nextLink.label}</span>
+				</a>
+			) : collectionLink ? (
+				<a href={collectionLink.href} class="chapter-link next">
+					<span class="chapter-dir">Collection &rarr;</span>
+					<span class="chapter-title">{collectionLink.label}</span>
+				</a>
+			) : (
+				<span />
+			)}
+		</div>
+	</nav>
+) : null}
