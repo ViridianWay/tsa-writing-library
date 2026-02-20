@@ -94,6 +94,30 @@ if (isLibraryPage) {
 
 const partChapterStr = isLibraryPage ? chapterLabel(partNum, chapterNum) : '';
 const dateStr = isLibraryPage ? formatDate(published) : '';
+
+// Build downloadable markdown content
+let downloadMarkdown = '';
+let downloadFilename = '';
+if (isLibraryPage) {
+	const rawBody = (route.entry as any).body ?? '';
+	const headerLines: string[] = [`# ${title}`];
+	const metaParts: string[] = [];
+	if (author && author !== 'Unknown') metaParts.push(`By ${author}`);
+	if (dateStr && dateStr !== 'Date unknown') metaParts.push(dateStr);
+	if (source) metaParts.push(source);
+	if (metaParts.length) headerLines.push(metaParts.join(' | '));
+	headerLines.push('');
+	downloadMarkdown = headerLines.join('\n') + '\n' + rawBody;
+
+	// Build a clean filename from the title
+	downloadFilename = title
+		.replace(/[^a-zA-Z0-9\s-]/g, '')
+		.replace(/\s+/g, '-')
+		.toLowerCase()
+		.replace(/-+/g, '-')
+		.replace(/^-|-$/g, '')
+		+ '.md';
+}
 ---
 
 {isLibraryPage ? (
@@ -166,6 +190,19 @@ const dateStr = isLibraryPage ? formatDate(published) : '';
 			</div>
 		)}
 
+		{/* Download button */}
+		<div class="article-download">
+			<button
+				class="download-md-btn"
+				data-filename={downloadFilename}
+				aria-label="Download as Markdown"
+			>
+				<svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+				Download
+			</button>
+		</div>
+		<template id="article-md-source">{downloadMarkdown}</template>
+
 		{/* Top navigation */}
 		{(prevLink || nextLink || seriesUrl) && (
 			<nav class="article-top-nav" aria-label="Chapter navigation">
@@ -207,6 +244,27 @@ const dateStr = isLibraryPage ? formatDate(published) : '';
 ) : (
 	<h1 id={PAGE_TITLE_ID}>{title}</h1>
 )}
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const btn = document.querySelector('.download-md-btn') as HTMLButtonElement | null;
+		if (!btn) return;
+		btn.addEventListener('click', () => {
+			const tmpl = document.getElementById('article-md-source') as HTMLTemplateElement | null;
+			if (!tmpl) return;
+			const md = tmpl.innerHTML;
+			const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = btn.dataset.filename || 'article.md';
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(url);
+		});
+	});
+</script>
 
 <style>
 	@layer starlight.custom {
@@ -325,6 +383,35 @@ const dateStr = isLibraryPage ? formatDate(published) : '';
 
 		.article-tag:hover {
 			opacity: 0.8;
+		}
+
+		/* Download button */
+		.article-download {
+			margin-bottom: 0.75rem;
+		}
+
+		.download-md-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35rem;
+			font-size: 0.75rem;
+			font-weight: 500;
+			color: var(--sl-color-gray-2);
+			background: var(--sl-color-bg);
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.25rem;
+			padding: 0.3rem 0.6rem;
+			cursor: pointer;
+			transition: border-color 0.15s ease, color 0.15s ease;
+		}
+
+		.download-md-btn:hover {
+			border-color: var(--sl-color-accent);
+			color: var(--sl-color-accent);
+		}
+
+		.download-icon {
+			flex-shrink: 0;
 		}
 
 		/* Top navigation */
