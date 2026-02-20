@@ -7,28 +7,34 @@ interface Props {
 const { src, alt } = Astro.props;
 ---
 
-<figure class="lightbox-figure">
+<figure class="lightbox-figure" data-lightbox-src={src} data-lightbox-alt={alt}>
 	<img src={src} alt={alt} class="lightbox-thumb" loading="lazy" />
 	{alt && <figcaption class="lightbox-caption">{alt}</figcaption>}
 </figure>
 
-<div class="lightbox-overlay" aria-hidden="true">
-	<button class="lightbox-close" aria-label="Close">&times;</button>
-	<div class="lightbox-zoom-container">
-		<img src={src} alt={alt} class="lightbox-full" draggable="false" />
-	</div>
-	<div class="lightbox-hint">Scroll or pinch to zoom</div>
-</div>
-
 <script>
 	function initLightboxes() {
-		document.querySelectorAll<HTMLElement>('.lightbox-figure').forEach((figure) => {
-			const overlay = figure.nextElementSibling as HTMLElement;
-			if (!overlay?.classList.contains('lightbox-overlay')) return;
-			if (overlay.dataset.init) return;
-			overlay.dataset.init = '1';
+		document.querySelectorAll<HTMLElement>('.lightbox-figure[data-lightbox-src]').forEach((figure) => {
+			if (figure.dataset.lbInit) return;
+			figure.dataset.lbInit = '1';
 
+			const src = figure.dataset.lightboxSrc!;
+			const alt = figure.dataset.lightboxAlt || '';
 			const thumb = figure.querySelector('.lightbox-thumb') as HTMLElement;
+
+			// Build overlay and append to body so it escapes any stacking contexts
+			const overlay = document.createElement('div');
+			overlay.className = 'lightbox-overlay';
+			overlay.setAttribute('aria-hidden', 'true');
+			overlay.innerHTML = `
+				<button class="lightbox-close" aria-label="Close">&times;</button>
+				<div class="lightbox-zoom-container">
+					<img src="${src}" alt="${alt}" class="lightbox-full" draggable="false" />
+				</div>
+				<div class="lightbox-hint">Scroll or pinch to zoom</div>
+			`;
+			document.body.appendChild(overlay);
+
 			const closeBtn = overlay.querySelector('.lightbox-close') as HTMLElement;
 			const container = overlay.querySelector('.lightbox-zoom-container') as HTMLElement;
 			const img = overlay.querySelector('.lightbox-full') as HTMLElement;
@@ -58,6 +64,7 @@ const { src, alt } = Astro.props;
 				resetZoom();
 				overlay.classList.add('open');
 				overlay.setAttribute('aria-hidden', 'false');
+				document.body.style.overflow = 'hidden';
 				if (hint) {
 					hint.style.opacity = '1';
 					setTimeout(() => { hint.style.opacity = '0'; }, 2000);
@@ -67,6 +74,7 @@ const { src, alt } = Astro.props;
 			function closeLightbox() {
 				overlay.classList.remove('open');
 				overlay.setAttribute('aria-hidden', 'true');
+				document.body.style.overflow = '';
 			}
 
 			thumb.addEventListener('click', openLightbox);
@@ -87,7 +95,6 @@ const { src, alt } = Astro.props;
 				e.preventDefault();
 				const delta = e.deltaY > 0 ? -0.15 : 0.15;
 				const newScale = Math.min(Math.max(scale + delta, 0.5), 8);
-				// Zoom toward cursor position
 				const rect = container.getBoundingClientRect();
 				const cx = e.clientX - rect.left - rect.width / 2;
 				const cy = e.clientY - rect.top - rect.height / 2;
@@ -166,7 +173,6 @@ const { src, alt } = Astro.props;
 			});
 
 			// Double-click/tap to toggle zoom
-			let lastTap = 0;
 			container.addEventListener('dblclick', (e) => {
 				e.preventDefault();
 				if (scale > 1) {
@@ -181,13 +187,21 @@ const { src, alt } = Astro.props;
 			});
 		});
 
+		// Escape key closes all lightboxes
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape') {
 				document.querySelectorAll('.lightbox-overlay.open').forEach((el) => {
 					el.classList.remove('open');
 					el.setAttribute('aria-hidden', 'true');
 				});
+				document.body.style.overflow = '';
 			}
+		});
+
+		// Make all PDF links open in new tabs
+		document.querySelectorAll<HTMLAnchorElement>('a[href$=".pdf"]').forEach((link) => {
+			link.setAttribute('target', '_blank');
+			link.setAttribute('rel', 'noopener');
 		});
 	}
 
@@ -219,7 +233,9 @@ const { src, alt } = Astro.props;
 		font-style: italic;
 		text-align: center;
 	}
+</style>
 
+<style is:global>
 	.lightbox-overlay {
 		display: none;
 		position: fixed;
