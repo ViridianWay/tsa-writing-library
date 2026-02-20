@@ -1,5 +1,5 @@
 ---
-title: "The Children"
+title: "The Children II"
 author: "William Booth"
 series: "The Founder's Messages to Soldiers"
 type: "Chapter"

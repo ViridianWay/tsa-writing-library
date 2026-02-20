@@ -1,5 +1,5 @@
 ---
-title: "Faith"
+title: "Faith I — What Faith Is"
 author: "William Booth"
 series: "The Founder's Messages to Soldiers"
 type: "Chapter"

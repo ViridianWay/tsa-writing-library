@@ -1,5 +1,5 @@
 ---
-title: "Separation from the World"
+title: "Separation from the World II"
 author: "William Booth"
 series: "The Founder's Messages to Soldiers"
 type: "Chapter"

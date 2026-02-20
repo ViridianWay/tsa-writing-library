@@ -1,5 +1,5 @@
 ---
-title: "Speaking for Christ"
+title: "Speaking for Christ I"
 author: "William Booth"
 series: "The Founder's Messages to Soldiers"
 type: "Chapter"

@@ -1,5 +1,5 @@
 ---
-title: "The Blood of the Lamb"
+title: "The Blood of the Lamb I"
 author: "William Booth"
 series: "The Founder's Messages to Soldiers"
 type: "Chapter"

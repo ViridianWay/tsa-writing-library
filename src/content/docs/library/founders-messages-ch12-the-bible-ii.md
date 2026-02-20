@@ -1,5 +1,5 @@
 ---
-title: "The Bible"
+title: "The Bible II"
 author: "William Booth"
 series: "The Founder's Messages to Soldiers"
 type: "Chapter"

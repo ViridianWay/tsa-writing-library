@@ -1,5 +1,5 @@
 ---
-title: "About Growing Weary"
+title: "About Growing Weary I"
 author: "William Booth"
 series: "The Founder's Messages to Soldiers"
 type: "Chapter"
