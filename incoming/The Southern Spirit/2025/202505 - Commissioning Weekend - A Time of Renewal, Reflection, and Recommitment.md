@@ -1,0 +1,27 @@
+# 202505 - Commissioning Weekend: A Time of Renewal, Reflection, and Recommitment
+
+* **By:** Major Zach Bell
+* **Date:** May 12, 2025
+* **Location:** Atlanta, Georgia
+* **Source:** [https://southernusa.salvationarmy.org/uss/news/commissioning-weekend-a-time-of-renewal-reflection-and-recommitment](https://southernusa.salvationarmy.org/uss/news/commissioning-weekend-a-time-of-renewal-reflection-and-recommitment)
+
+---
+
+*As Salvationists of the Southern Territory, my wife and I are preparing once again* [to attend the annual Commissioning weekend in Atlanta](https://southernusa.salvationarmy.org/uss/news/commissioning-weekend-a-time-of-renewal-reflection-and-recommitment) *this year. This much-loved occasion has become an important time in my spiritual journey because each year it has provided opportunities for contemplation and spiritual refreshment, as well as a celebration of God’s calling on my life and those of so many others.*
+
+*I can remember how my family would all squeeze into our car and drive to Atlanta every year for this celebration at Symphony Hall. There was a sense of joy in welcoming new officers into the Army ranks. I found myself mesmerized by the band’s music as I watched what seemed to be thousands of Salvationists singing and clapping with great joy. Even as a child, I could see and feel God’s Spirit moving powerfully through those times. In my opinion, those weekends exceeded the status of an “event” as they proved to be times when my faith and commitment were challenged and strengthened, and I was often changed.*
+
+*As I grew older, those Commissioning weekends remained a source of great spiritual impact on me. Then came the memorable day Shelley and I found ourselves at Symphony Hall standing on that same stage, not to watch, but as ones stepping into the sacred calling of officership ourselves. That moment was life changing. With hands raised in surrender, we walked into our calling, trusting God to lead the way. We have since gone through many venue changes, as well as numerous wonderful times of worship and the witnessing of hundreds of men and women who have been commissioned. These weekends have continued to hold the same importance and celebration for me today, providing me with motivation and a time of spiritual rejuvenation and rededication. We have attended Commissioning weekend every year as officers, only missing the year the COVID-19 pandemic forced us all to stay home.*
+
+*Each year during this special weekend, we receive three unique gifts: a chance to reflect on our spiritual journey, a chance to refocus and realign with God’s purpose, and a chance to re-energize for the road ahead. Every time I witness cadets stepping forward with boldness and answering the call to officership, my own passion for the call on my life and the mission is reignited. Their passion, along with their absolute trust in God and readiness to follow His direction, makes me remember my own commitment to serve like Jesus did, to love as He does, and to bring people into His Kingdom.*
+
+*Shelley and I are experiencing this same weekend in a unique way this year. We are a part of the Evangeline Booth College staff team for the first time and find ourselves on the other side of the curtain. This new position has given us a distinct and inspiring view of things. No longer are we only watching and cheering on these cadets from a distance, we have had the privilege to live alongside them every day, learning, growing, and experiencing life together. We have observed the cadets and have witnessed their dedication, their struggles, their triumphs, and their total commitment to the calling God has placed on each of their lives.*
+
+*When you witness these cadets walking across the stage this June, be assured that they are ready. As you have the opportunity to be led by them in your corps and divisions, know that they are for you and with you. When you see this next session of Army officers commissioned, know that they truly are Champions of the Mission— God’s warriors who are stepping forward with courage and conviction. They are prepared to provide leadership while serving others and, most importantly, to expand God’s Kingdom in this world that desperately needs Him. I am confident that our Army is in good hands and that its future is bright because God is always “doing something new” (Isaiah 43:10). And oh, what a privilege it is for us to witness!*
+
+*As we gather for this year’s Commissioning weekend, I pray that we all take time to listen to God’s voice afresh and anew. May we be challenged to Serve Like Jesus by going where He leads us and by giving our all for His glory. As for me, I will once again find myself in that sacred space of renewal, recharge, and recommitment to God’s mission before us. Because this isn’t just another weekend on the calendar; this is a divine appointment, and I can’t wait to see what God will do next! Let’s look and see it together. See you at Commissioning 2025!*
+
+*“For I am about to do something new. See, I have already begun! Do you not see it? I will make a pathway through the wilderness. I will create rivers in the dry wasteland” Isaiah 43:19*
+
+---
+*Source:* [Commissioning Weekend: A Time of Renewal, Reflection, and Recommitment](https://southernusa.salvationarmy.org/uss/news/commissioning-weekend-a-time-of-renewal-reflection-and-recommitment)
