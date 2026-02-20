@@ -1,0 +1,424 @@
+---
+import { getCollection } from 'astro:content';
+import { formatDate } from '../lib/collections';
+
+interface Props {
+	/** Path prefix to filter entries (e.g., 'periodicals/southern-spirit') */
+	pathPrefix: string;
+}
+
+const { pathPrefix } = Astro.props as Props;
+
+const docs = await getCollection('docs');
+
+const toPath = (entry: (typeof docs)[number]) => {
+	const raw = entry.slug ?? entry.id.replace(/\.(md|mdx)$/, '');
+	return `/${raw.replace(/\/index$/, '')}/`;
+};
+
+const monthNames = [
+	'', 'January', 'February', 'March', 'April', 'May', 'June',
+	'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+const works = docs
+	.filter((entry) => entry.id.startsWith(pathPrefix) && !entry.id.endsWith('/index.md'))
+	.map((entry) => {
+		const pub = String(entry.data.published ?? '');
+		const match = pub.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+		const year = match ? match[1] : pub.match(/\d{4}/)?.[0] || '';
+		const monthNum = match ? parseInt(match[2], 10) : 0;
+		const month = monthNum > 0 ? monthNames[monthNum] : '';
+		return {
+			title: entry.data.title,
+			path: toPath(entry),
+			author: entry.data.author || '',
+			published: pub,
+			year,
+			month,
+			monthNum,
+			dateFormatted: formatDate(pub),
+		};
+	})
+	.sort((a, b) => b.published.localeCompare(a.published));
+
+// Gather unique values for filters
+const authors = [...new Set(works.map((w) => w.author).filter(Boolean))].sort();
+const years = [...new Set(works.map((w) => w.year).filter(Boolean))].sort().reverse();
+const months = monthNames.filter((m) => m && works.some((w) => w.month === m));
+---
+
+<div class="browse-all" id="browse-periodical">
+	{/* Search bar */}
+	<div class="browse-search">
+		<input
+			type="text"
+			id="periodical-search-input"
+			placeholder="Search articles..."
+			autocomplete="off"
+		/>
+	</div>
+
+	{/* Filter controls */}
+	<div class="browse-filters">
+		<select id="periodical-filter-author" class="browse-filter-select">
+			<option value="">All Authors</option>
+			{authors.map((a) => (
+				<option value={a}>{a}</option>
+			))}
+		</select>
+
+		<select id="periodical-filter-year" class="browse-filter-select">
+			<option value="">All Years</option>
+			{years.map((y) => (
+				<option value={y}>{y}</option>
+			))}
+		</select>
+
+		<select id="periodical-filter-month" class="browse-filter-select">
+			<option value="">All Months</option>
+			{months.map((m) => (
+				<option value={m}>{m}</option>
+			))}
+		</select>
+	</div>
+
+	{/* Status row */}
+	<div class="browse-status">
+		<span id="periodical-result-count" class="browse-result-count">{works.length} articles</span>
+		<span class="browse-sort">
+			<label for="periodical-sort-select" class="browse-sort-label">Sort:</label>
+			<select id="periodical-sort-select" class="browse-sort-select">
+				<option value="date-desc">Newest first</option>
+				<option value="date-asc">Oldest first</option>
+				<option value="title">A&ndash;Z</option>
+				<option value="author">By author</option>
+			</select>
+		</span>
+		<button id="periodical-clear-filters" class="browse-clear-btn" style="display:none;">Clear filters</button>
+	</div>
+
+	{/* Works list */}
+	<div class="browse-works-list" id="periodical-works-list">
+		{works.map((work) => (
+			<a
+				href={work.path}
+				class="browse-work-item"
+				data-author={work.author}
+				data-year={work.year}
+				data-month={work.month}
+				data-published={work.published}
+				data-title={work.title.toLowerCase()}
+			>
+				<span class="browse-work-title">{work.title}</span>
+				<span class="browse-work-meta">
+					{work.author && <span class="browse-work-author">{work.author}</span>}
+					{work.dateFormatted && work.dateFormatted !== 'Date unknown' && (
+						<span class="browse-work-date">{work.dateFormatted}</span>
+					)}
+				</span>
+			</a>
+		))}
+	</div>
+
+	{/* No results message */}
+	<p id="periodical-no-results" class="browse-no-results" style="display:none;">No articles match your filters.</p>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const searchInput = document.getElementById('periodical-search-input') as HTMLInputElement;
+		const authorSelect = document.getElementById('periodical-filter-author') as HTMLSelectElement;
+		const yearSelect = document.getElementById('periodical-filter-year') as HTMLSelectElement;
+		const monthSelect = document.getElementById('periodical-filter-month') as HTMLSelectElement;
+		const sortSelect = document.getElementById('periodical-sort-select') as HTMLSelectElement;
+		const resultCount = document.getElementById('periodical-result-count')!;
+		const clearBtn = document.getElementById('periodical-clear-filters')!;
+		const noResults = document.getElementById('periodical-no-results')!;
+		const worksList = document.getElementById('periodical-works-list')!;
+		const items = document.querySelectorAll<HTMLElement>('#periodical-works-list .browse-work-item');
+
+		function sortItems() {
+			const mode = sortSelect.value;
+			const arr = Array.from(worksList.querySelectorAll<HTMLElement>('.browse-work-item'));
+			arr.sort((a, b) => {
+				if (mode === 'title') {
+					return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+				}
+				if (mode === 'author') {
+					const authorCmp = (a.dataset.author || '').localeCompare(b.dataset.author || '');
+					if (authorCmp !== 0) return authorCmp;
+					return (b.dataset.published || '').localeCompare(a.dataset.published || '');
+				}
+				// date-desc or date-asc
+				const da = a.dataset.published || '';
+				const db = b.dataset.published || '';
+				if (da !== db) {
+					return mode === 'date-asc'
+						? da.localeCompare(db)
+						: db.localeCompare(da);
+				}
+				return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+			});
+			arr.forEach((el) => worksList.appendChild(el));
+		}
+
+		function applyFilters() {
+			const query = searchInput.value.toLowerCase().trim();
+			const author = authorSelect.value;
+			const year = yearSelect.value;
+			const month = monthSelect.value;
+
+			let visible = 0;
+
+			items.forEach((item) => {
+				const title = item.dataset.title || '';
+				const itemAuthor = item.dataset.author || '';
+				const itemYear = item.dataset.year || '';
+				const itemMonth = item.dataset.month || '';
+
+				let show = true;
+
+				if (query && !title.includes(query) && !itemAuthor.toLowerCase().includes(query)) {
+					show = false;
+				}
+				if (author && itemAuthor !== author) show = false;
+				if (year && itemYear !== year) show = false;
+				if (month && itemMonth !== month) show = false;
+
+				item.style.display = show ? '' : 'none';
+				if (show) visible++;
+			});
+
+			resultCount.textContent = `${visible} article${visible !== 1 ? 's' : ''}`;
+			noResults.style.display = visible === 0 ? '' : 'none';
+
+			const hasFilters = query || author || year || month;
+			clearBtn.style.display = hasFilters ? '' : 'none';
+		}
+
+		searchInput.addEventListener('input', applyFilters);
+		authorSelect.addEventListener('change', applyFilters);
+		yearSelect.addEventListener('change', applyFilters);
+		monthSelect.addEventListener('change', applyFilters);
+		sortSelect.addEventListener('change', sortItems);
+
+		clearBtn.addEventListener('click', () => {
+			searchInput.value = '';
+			authorSelect.value = '';
+			yearSelect.value = '';
+			monthSelect.value = '';
+			sortSelect.value = 'date-desc';
+			sortItems();
+			applyFilters();
+		});
+
+		// Check for hash-based pre-filtering
+		const hash = window.location.hash.slice(1);
+		if (hash) {
+			const params = new URLSearchParams(hash);
+			if (params.has('author')) {
+				authorSelect.value = params.get('author') || '';
+			}
+			if (params.has('year')) {
+				yearSelect.value = params.get('year') || '';
+			}
+			if (params.has('month')) {
+				monthSelect.value = params.get('month') || '';
+			}
+			if (params.has('q')) {
+				searchInput.value = params.get('q') || '';
+			}
+			if (params.has('sort')) {
+				const s = params.get('sort') || '';
+				if (['date-desc', 'date-asc', 'title', 'author'].includes(s)) {
+					sortSelect.value = s;
+					sortItems();
+				}
+			}
+			applyFilters();
+		}
+	});
+</script>
+
+<style>
+	@layer starlight.custom {
+		.browse-all {
+			margin-top: 0.5rem;
+		}
+
+		/* Search */
+		.browse-search {
+			margin-bottom: 0.75rem;
+		}
+
+		#periodical-search-input {
+			width: 100%;
+			padding: 0.6rem 0.75rem;
+			font-size: 0.95rem;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.375rem;
+			background: var(--sl-color-bg);
+			color: var(--sl-color-text);
+			outline: none;
+			transition: border-color 0.15s ease;
+		}
+
+		#periodical-search-input:focus {
+			border-color: var(--sl-color-accent);
+		}
+
+		#periodical-search-input::placeholder {
+			color: var(--sl-color-gray-3);
+		}
+
+		/* Filters row */
+		.browse-filters {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin-bottom: 0.75rem;
+		}
+
+		.browse-filter-select {
+			padding: 0.4rem 0.6rem;
+			font-size: 0.8rem;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.25rem;
+			background: var(--sl-color-bg);
+			color: var(--sl-color-text);
+			cursor: pointer;
+			min-width: 0;
+			flex: 1;
+			max-width: 200px;
+		}
+
+		.browse-filter-select:focus {
+			border-color: var(--sl-color-accent);
+			outline: none;
+		}
+
+		/* Status row */
+		.browse-status {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			margin-bottom: 0.5rem;
+			font-size: 0.8rem;
+			color: var(--sl-color-gray-3);
+		}
+
+		.browse-sort {
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
+			margin-left: auto;
+		}
+
+		.browse-sort-label {
+			font-size: 0.8rem;
+			color: var(--sl-color-gray-3);
+		}
+
+		.browse-sort-select {
+			font-size: 0.75rem;
+			padding: 0.15rem 0.4rem;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.2rem;
+			background: var(--sl-color-bg);
+			color: var(--sl-color-text);
+			cursor: pointer;
+		}
+
+		.browse-sort-select:focus {
+			border-color: var(--sl-color-accent);
+			outline: none;
+		}
+
+		.browse-clear-btn {
+			font-size: 0.75rem;
+			color: var(--sl-color-accent);
+			background: none;
+			border: 1px solid var(--sl-color-accent);
+			border-radius: 0.2rem;
+			padding: 0.15rem 0.5rem;
+			cursor: pointer;
+			transition: background 0.15s ease;
+		}
+
+		.browse-clear-btn:hover {
+			background: var(--sl-color-accent-high);
+		}
+
+		/* Works list */
+		.browse-works-list {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.browse-work-item {
+			display: flex;
+			flex-direction: column;
+			gap: 0.15rem;
+			padding: 0.5rem 0.75rem;
+			text-decoration: none;
+			color: var(--sl-color-text);
+			border-bottom: 1px solid var(--sl-color-gray-6);
+			transition: background-color 0.15s ease;
+		}
+
+		.browse-work-item:hover {
+			background-color: var(--sl-color-gray-7);
+		}
+
+		.browse-work-item:hover .browse-work-title {
+			color: var(--sl-color-accent);
+		}
+
+		.browse-work-title {
+			font-weight: 500;
+			transition: color 0.15s ease;
+		}
+
+		.browse-work-meta {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.4rem;
+			font-size: 0.75rem;
+			color: var(--sl-color-gray-3);
+		}
+
+		.browse-work-author {
+			font-weight: 500;
+		}
+
+		.browse-work-date {
+			font-size: 0.7rem;
+		}
+
+		.browse-work-author + .browse-work-date::before {
+			content: '\00b7';
+			margin-right: 0.4rem;
+			color: var(--sl-color-gray-5);
+		}
+
+		/* No results */
+		.browse-no-results {
+			text-align: center;
+			color: var(--sl-color-gray-3);
+			padding: 2rem 0;
+			font-style: italic;
+		}
+
+		@media (max-width: 40rem) {
+			.browse-filters {
+				flex-direction: column;
+			}
+
+			.browse-filter-select {
+				max-width: 100%;
+			}
+		}
+	}
+</style>
