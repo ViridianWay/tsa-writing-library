@@ -23,7 +23,9 @@ tags:
 *Complete Correspondence between General William Booth and Brigadier and Mrs. James Melling (Deleri Singh), 1911-1912*
 
 ---
-[[Salvation Army Library/William Booth Collection/Essential Measures/Essential Measures Facsimile Reproduction of the Founder's writing.pdf]]
+
+**Original documents:** [Facsimile of the Founder's handwriting (PDF)](/images/essential-measures-facsimile.pdf) | [Deleri Singh letter (PDF)](/images/deleri-singh-letter.pdf)
+
 ## Foreword
 
 On Christmas Day 1911, less than seven months before he was promoted to Glory, General William Booth, Founder of The Salvation Army, wrote a letter to Brigadier and Mrs James Melling, British officers serving in India, where the brigadier was Territorial Commander at Bareilly.
