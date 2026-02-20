@@ -24,7 +24,7 @@ tags:
 
 ---
 
-**Original documents:** <a href="/images/essential-measures-facsimile.pdf" target="_blank">Facsimile of the Founder's handwriting (PDF)</a> | <a href="/images/deleri-singh-letter.pdf" target="_blank">Deleri Singh letter (PDF)</a>
+**Original documents:** <a href="/images/essential-measures-facsimile.pdf" download>Facsimile of the Founder's handwriting (PDF)</a> | <a href="/images/deleri-singh-letter.pdf" download>Deleri Singh letter (PDF)</a>
 
 ## Foreword
 
