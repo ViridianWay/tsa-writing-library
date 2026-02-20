@@ -14,7 +14,8 @@ const data = route.entry.data as Record<string, any>;
 const title = data.title;
 
 const currentPath = Astro.url.pathname;
-const isLibraryPage = currentPath.startsWith('/library/') || currentPath.startsWith('/periodicals/southern-spirit/');
+const isPeriodicalPage = currentPath.startsWith('/periodicals/southern-spirit/');
+const isLibraryPage = currentPath.startsWith('/library/') || isPeriodicalPage;
 
 // Gather metadata for library pages
 let author: string | undefined;
@@ -184,9 +185,12 @@ if (isLibraryPage) {
 		{/* Tags */}
 		{tags.length > 0 && (
 			<div class="article-tags">
-				{tags.map((tag) => (
-					<a href={`/browse/#tag=${tag}`} class="article-tag">{formatTag(tag)}</a>
-				))}
+				{tags.map((tag) => {
+					const tagHref = tag === 'southern-spirit'
+						? '/periodicals/southern-spirit/'
+						: `/browse/#tag=${tag}`;
+					return <a href={tagHref} class="article-tag">{formatTag(tag)}</a>;
+				})}
 			</div>
 		)}
 
