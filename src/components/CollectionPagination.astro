@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import { collectionUrls, chapterLabel } from '../lib/collections';
 
 const currentPath = Astro.url.pathname;
-const isLibraryPage = currentPath.startsWith('/library/');
+const isLibraryPage = currentPath.startsWith('/library/') || currentPath.startsWith('/periodicals/');
 
 let prevLink: { href: string; label: string; partChapter: string } | null = null;
 let nextLink: { href: string; label: string; partChapter: string } | null = null;

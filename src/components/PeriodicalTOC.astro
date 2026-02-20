@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import { formatDate } from '../lib/collections';
+
+interface Props {
+	/** Path prefix to filter entries (e.g., 'periodicals/southern-spirit') */
+	pathPrefix: string;
+	/** Group articles by year (default true) */
+	groupByYear?: boolean;
+}
+
+const { pathPrefix, groupByYear = true } = Astro.props as Props;
+
+const docs = await getCollection('docs');
+
+const toPath = (entry: (typeof docs)[number]) => {
+	const raw = entry.slug ?? entry.id.replace(/\.(md|mdx)$/, '');
+	return `/${raw.replace(/\/index$/, '')}/`;
+};
+
+const works = docs
+	.filter(
+		(entry) =>
+			entry.id.startsWith(pathPrefix) &&
+			!entry.id.endsWith('/index.md')
+	)
+	.map((entry) => ({
+		title: entry.data.title,
+		path: toPath(entry),
+		author: entry.data.author,
+		published: entry.data.published,
+		type: entry.data.type,
+	}));
+
+// Sort by published date, newest first
+works.sort((a, b) => String(b.published ?? '').localeCompare(String(a.published ?? '')));
+
+// Group by year
+const years = new Map<string, typeof works>();
+for (const work of works) {
+	const year = String(work.published ?? '').match(/\d{4}/)?.[0] ?? 'Unknown';
+	const list = years.get(year) ?? [];
+	list.push(work);
+	years.set(year, list);
+}
+
+const sortedYears = [...years.entries()].sort(([a], [b]) => b.localeCompare(a));
+---
+
+<div class="periodical-archive">
+	<p class="periodical-count">{works.length} articles</p>
+	{groupByYear ? (
+		sortedYears.map(([year, items]) => (
+			<section class="periodical-year">
+				<h3>{year}</h3>
+				<div class="toc-items">
+					{items.map((work) => (
+						<a href={work.path} class="toc-item">
+							<span class="toc-title">{work.title}</span>
+							<span class="toc-meta">
+								{work.author && <span class="toc-author">{work.author}</span>}
+								{work.published && <span class="toc-date">{formatDate(String(work.published))}</span>}
+							</span>
+						</a>
+					))}
+				</div>
+			</section>
+		))
+	) : (
+		<div class="toc-items">
+			{works.map((work) => (
+				<a href={work.path} class="toc-item">
+					<span class="toc-title">{work.title}</span>
+					<span class="toc-meta">
+						{work.author && <span class="toc-author">{work.author}</span>}
+						{work.published && <span class="toc-date">{formatDate(String(work.published))}</span>}
+					</span>
+				</a>
+			))}
+		</div>
+	)}
+</div>

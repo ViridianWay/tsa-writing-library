@@ -9,6 +9,8 @@ export const collectionUrls: Record<string, string> = {
 	'Fishing for Men': '/collections/fishing-for-men/',
 	'How to Reach the Masses with the Gospel': '/collections/how-to-reach-the-masses/',
 	'How to Preach': '/collections/how-to-preach/',
+	"Now You Know: The Rest of The Army's Story": '/collections/now-you-know/',
+	'Bible Conference 2025: Hope': '/collections/bible-conference-2025/',
 };
 
 /** Format a raw `published` value into a human-readable string. */

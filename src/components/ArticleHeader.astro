@@ -14,7 +14,7 @@ const data = route.entry.data as Record<string, any>;
 const title = data.title;
 
 const currentPath = Astro.url.pathname;
-const isLibraryPage = currentPath.startsWith('/library/');
+const isLibraryPage = currentPath.startsWith('/library/') || currentPath.startsWith('/periodicals/southern-spirit/');
 
 // Gather metadata for library pages
 let author: string | undefined;

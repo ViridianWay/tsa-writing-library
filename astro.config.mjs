@@ -31,6 +31,14 @@ export default defineConfig({
 						{ label: 'Fishing for Men', slug: 'collections/fishing-for-men' },
 						{ label: 'How to Preach', slug: 'collections/how-to-preach' },
 						{ label: 'Essential Measures', slug: 'library/essential-measures-full-book' },
+						{ label: 'Now You Know', slug: 'collections/now-you-know' },
+						{ label: 'Bible Conference 2025', slug: 'collections/bible-conference-2025' },
+					],
+				},
+				{
+					label: 'Periodicals',
+					items: [
+						{ label: 'The Southern Spirit', slug: 'periodicals/southern-spirit' },
 					],
 				},
 				{
