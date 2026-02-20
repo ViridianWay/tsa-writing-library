@@ -10,6 +10,7 @@ export default defineConfig({
 			description:
 				'A digital archive of historical and contemporary Salvation Army writings.',
 			components: {
+				Head: './src/components/Head.astro',
 				Pagination: './src/components/CollectionPagination.astro',
 				PageTitle: './src/components/ArticleHeader.astro',
 				Sidebar: './src/components/LibrarySidebar.astro',
